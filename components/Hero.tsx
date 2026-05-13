@@ -20,7 +20,7 @@ export function Hero() {
     <section className="relative min-h-[560px] md:min-h-[680px] flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0B1F3A] via-[#1B2A4E] to-[#0B1F3A] pt-20 pb-16">
       <div
         className="absolute -top-[200px] -right-[180px] w-[720px] h-[720px] rounded-full pointer-events-none"
-        style={{ background: "#0078D4", opacity: 0.25, filter: "blur(80px)" }}
+        style={{ background: "#13AEEB", opacity: 0.25, filter: "blur(80px)" }}
         aria-hidden="true"
       />
       <div

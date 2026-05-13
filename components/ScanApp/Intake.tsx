@@ -173,7 +173,7 @@ export function Intake({ onSubmit }: { onSubmit: (data: IntakeData) => void }) {
 }
 
 const inputCls =
-  "w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm focus:outline-none focus:border-[#0078D4] focus:ring-2 focus:ring-[#0078D4]/15 transition placeholder:text-slate-400";
+  "w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm focus:outline-none focus:border-[#13AEEB] focus:ring-2 focus:ring-[#13AEEB]/15 transition placeholder:text-slate-400";
 
 function Field({
   label,
@@ -190,7 +190,7 @@ function Field({
     <label className="block">
       <span className="block text-sm font-medium text-slate-700 mb-1.5">
         {label}
-        {required && <span className="text-[#0078D4] ml-0.5">*</span>}
+        {required && <span className="text-[#13AEEB] ml-0.5">*</span>}
       </span>
       {children}
       {hint && <span className="block mt-1 text-xs text-slate-500">{hint}</span>}

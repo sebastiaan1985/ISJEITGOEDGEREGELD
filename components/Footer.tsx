@@ -1,18 +1,12 @@
+import { Cloud1Logo } from "./ui/Cloud1Logo";
+
 export function Footer() {
   return (
     <footer className="bg-[#0B1F3A] text-white/70 border-t border-white/10">
       <div className="mx-auto max-w-7xl px-5 md:px-8 py-14">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-2">
-              <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
-                <path
-                  d="M22 14a6 6 0 0 0-11.7-1.3A5 5 0 0 0 11 22h11a4 4 0 0 0 0-8Z"
-                  fill="#50E6FF"
-                />
-              </svg>
-              <span className="text-xl font-bold tracking-tight text-white">Cloud1</span>
-            </div>
+            <Cloud1Logo className="text-white" width={120} height={46} />
             <p className="mt-4 text-sm leading-relaxed">
               Microsoft Solutions Partner.
               <br />

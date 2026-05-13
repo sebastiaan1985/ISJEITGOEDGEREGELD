@@ -41,7 +41,7 @@ export function HowItWorks() {
               transition={{ duration: 0.42, delay: i * 0.1, ease: "easeOut" }}
               className="relative bg-white rounded-2xl p-7 border border-slate-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
             >
-              <div className="w-12 h-12 rounded-full bg-[#0078D4] text-white font-bold text-xl flex items-center justify-center">
+              <div className="w-12 h-12 rounded-full bg-[#13AEEB] text-white font-bold text-xl flex items-center justify-center">
                 {step.num}
               </div>
               <h3 className="mt-5 text-lg font-semibold text-slate-900">{step.title}</h3>

@@ -30,7 +30,7 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
                     isCompleted
                       ? "bg-[#10B981] border-[#10B981] text-white"
                       : isActive
-                        ? "bg-[#0078D4] border-[#0078D4] text-white"
+                        ? "bg-[#13AEEB] border-[#13AEEB] text-white"
                         : "bg-white border-slate-300 text-slate-400"
                   }`}
                   aria-current={isActive ? "step" : undefined}
@@ -42,7 +42,7 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
                 <div className="h-[2px] flex-1 mx-2 bg-slate-200 relative overflow-hidden rounded-full">
                   <div
                     className={`absolute inset-y-0 left-0 transition-[width] duration-300 ease-out ${
-                      isCompleted || isActive ? "bg-[#0078D4]" : "bg-transparent"
+                      isCompleted || isActive ? "bg-[#13AEEB]" : "bg-transparent"
                     }`}
                     style={{ width: `${isCompleted ? 100 : isActive ? progressWithin : 0}%` }}
                   />
@@ -58,7 +58,7 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
             key={label}
             className={
               i === currentCategory && !finished
-                ? "text-[#0078D4] font-semibold"
+                ? "text-[#13AEEB] font-semibold"
                 : i < currentCategory || finished
                   ? "text-slate-700"
                   : "text-slate-400"
@@ -68,7 +68,7 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
           </span>
         ))}
       </div>
-      <div className="mt-3 md:hidden text-center text-xs font-medium text-[#0078D4]">
+      <div className="mt-3 md:hidden text-center text-xs font-medium text-[#13AEEB]">
         {!finished && CATEGORY_SHORT[currentCategory]}
       </div>
     </div>

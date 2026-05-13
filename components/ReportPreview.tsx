@@ -34,8 +34,8 @@ export function ReportPreview() {
                   transition={{ duration: 0.3, delay: i * 0.08, ease: "easeOut" }}
                   className="flex items-start gap-3"
                 >
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#0078D4]/10 flex items-center justify-center mt-0.5">
-                    <Check size={14} className="text-[#0078D4]" />
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-[#13AEEB]/10 flex items-center justify-center mt-0.5">
+                    <Check size={14} className="text-[#13AEEB]" />
                   </span>
                   <span className="text-slate-700">{p}</span>
                 </motion.li>
@@ -72,7 +72,7 @@ function LaptopMockup() {
       <rect x="40" y="20" width="400" height="270" rx="14" fill="#1B2A4E" />
       <rect x="50" y="30" width="380" height="250" rx="8" fill="url(#screen)" />
 
-      <rect x="70" y="50" width="80" height="8" rx="2" fill="#0078D4" />
+      <rect x="70" y="50" width="80" height="8" rx="2" fill="#13AEEB" />
       <rect x="70" y="68" width="200" height="14" rx="3" fill="#0F172A" />
       <rect x="70" y="92" width="160" height="6" rx="2" fill="#94A3B8" />
 

@@ -11,7 +11,7 @@ export function BottomCTA() {
     <section className="bg-[#0B1F3A] py-20 md:py-24 relative overflow-hidden">
       <div
         className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: "#0078D4", opacity: 0.15, filter: "blur(80px)" }}
+        style={{ background: "#13AEEB", opacity: 0.15, filter: "blur(80px)" }}
         aria-hidden="true"
       />
       <div className="relative mx-auto max-w-3xl px-5 md:px-8 text-center text-white">

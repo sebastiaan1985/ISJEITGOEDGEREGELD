@@ -76,14 +76,14 @@ export function QuestionView({
               onClick={() => onSelect(opt.score)}
               className={`w-full text-left p-4 rounded-xl border-[1.5px] transition-all duration-150 ease-out flex items-start gap-4 ${
                 isSelected
-                  ? "border-[#0078D4] bg-[#0078D4]/8 ring-2 ring-[#0078D4]/15"
-                  : "border-slate-200 bg-white hover:border-[#0078D4]/50 hover:bg-[#0078D4]/3"
+                  ? "border-[#13AEEB] bg-[#13AEEB]/8 ring-2 ring-[#13AEEB]/15"
+                  : "border-slate-200 bg-white hover:border-[#13AEEB]/50 hover:bg-[#13AEEB]/3"
               }`}
             >
               <span
                 className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-colors ${
                   isSelected
-                    ? "bg-[#0078D4] text-white"
+                    ? "bg-[#13AEEB] text-white"
                     : "bg-slate-100 text-slate-500"
                 }`}
               >

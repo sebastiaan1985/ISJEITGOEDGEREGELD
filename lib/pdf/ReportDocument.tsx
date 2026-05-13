@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     lineHeight: 1.5,
   },
   brandRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: 28 },
-  brand: { fontSize: 14, fontWeight: 700, color: "#0078D4" },
+  brand: { fontSize: 14, fontWeight: 700, color: "#13AEEB" },
   metaText: { fontSize: 9, color: "#64748B" },
   h1: { fontSize: 24, fontWeight: 700, marginTop: 4, marginBottom: 6, color: "#0B1F3A" },
   intro: { color: "#475569", fontSize: 11, marginBottom: 18 },

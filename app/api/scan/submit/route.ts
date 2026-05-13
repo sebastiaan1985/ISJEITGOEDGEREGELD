@@ -129,7 +129,7 @@ function salesEmail(
 
   return `
     <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; color: #0F172A;">
-      <h2 style="color: #0078D4;">Nieuwe scan — ${LEAD_LABEL[leadType]}</h2>
+      <h2 style="color: #13AEEB;">Nieuwe scan — ${LEAD_LABEL[leadType]}</h2>
       <p><strong>${intake.company}</strong> · ${intake.industry}</p>
       <ul>
         <li>Contact: ${intake.firstName} — ${intake.email}</li>
