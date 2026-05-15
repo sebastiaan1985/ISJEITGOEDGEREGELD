@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { AlertTriangle, ChevronRight } from "lucide-react";
-import { Button } from "./ui/Button";
+import { ChevronRight } from "lucide-react";
 
 const FALSE_SECURITY = [
   {
@@ -47,12 +46,8 @@ const STATS = [
 ];
 
 export function UrgencySection() {
-  const scrollToScan = () => {
-    document.getElementById("scanApp")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
-    <section className="py-14 md:py-20 bg-[#0B1F3A]">
+    <section className="py-14 md:py-20 bg-white">
       <div className="mx-auto max-w-7xl px-5 md:px-8">
 
         {/* Opener */}
@@ -63,15 +58,11 @@ export function UrgencySection() {
           transition={{ duration: 0.4 }}
           className="max-w-2xl"
         >
-          <div className="inline-flex items-center gap-2 rounded-full bg-red-500/10 border border-red-500/20 px-3 py-1.5 mb-5">
-            <AlertTriangle size={14} className="text-red-400" />
-            <span className="text-xs font-semibold text-red-400 uppercase tracking-wider">Cybersecurity 2025</span>
-          </div>
-          <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-bold text-white leading-[1.15] tracking-tight">
+          <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-bold text-slate-900 leading-[1.15] tracking-tight">
             De meeste ondernemers denken dat het goed zit.<br />
             <span className="text-[#13AEEB]">Totdat het misgaat.</span>
           </h2>
-          <p className="mt-4 text-slate-400 text-base leading-relaxed max-w-xl">
+          <p className="mt-4 text-slate-500 text-base leading-relaxed max-w-xl">
             Herken je jezelf in één van deze uitspraken? Dan weet je waarschijnlijk niet precies hoe kwetsbaar je bent.
           </p>
         </motion.div>
@@ -85,12 +76,12 @@ export function UrgencySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.35, delay: i * 0.07 }}
-              className="rounded-2xl border border-white/8 bg-white/5 p-5"
+              className="rounded-2xl border border-slate-200 bg-slate-50 p-5"
             >
-              <p className="text-base font-semibold text-white/90 italic">{item.belief}</p>
+              <p className="text-base font-semibold text-slate-800 italic">{item.belief}</p>
               <div className="mt-3 flex items-start gap-2">
                 <ChevronRight size={14} className="flex-shrink-0 text-[#13AEEB] mt-0.5" />
-                <p className="text-sm text-slate-400 leading-relaxed">{item.twist}</p>
+                <p className="text-sm text-slate-500 leading-relaxed">{item.twist}</p>
               </div>
             </motion.div>
           ))}
@@ -102,9 +93,9 @@ export function UrgencySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.2 }}
-          className="mt-12 rounded-2xl bg-white/5 border border-white/8 p-6 md:p-8"
+          className="mt-12 rounded-2xl bg-slate-50 border border-slate-200 p-6 md:p-8"
         >
-          <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-6">
+          <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-6">
             Cijfers die Nederlandse MKB-ondernemers zouden moeten kennen — 2024/2025
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -117,7 +108,7 @@ export function UrgencySection() {
                 transition={{ duration: 0.3, delay: 0.1 + i * 0.08 }}
               >
                 <p className="text-[clamp(1.6rem,3vw,2.2rem)] font-bold text-[#13AEEB] leading-none">{stat.number}</p>
-                <p className="mt-1.5 text-sm font-semibold text-white/90">{stat.label}</p>
+                <p className="mt-1.5 text-sm font-semibold text-slate-800">{stat.label}</p>
                 <p className="mt-1 text-xs text-slate-500 leading-relaxed">{stat.sub}</p>
               </motion.div>
             ))}
@@ -130,33 +121,19 @@ export function UrgencySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="mt-10 rounded-2xl border border-red-500/20 bg-red-500/5 p-6"
+          className="mt-10 rounded-2xl border border-red-200 bg-red-50 p-6"
         >
-          <p className="text-sm font-semibold text-red-400 uppercase tracking-wider mb-3">Stel je voor</p>
-          <p className="text-white/85 leading-relaxed">
+          <p className="text-sm font-semibold text-red-500 uppercase tracking-wider mb-3">Stel je voor</p>
+          <p className="text-slate-700 leading-relaxed">
             Maandagochtend. Je opent je laptop — maar al je bestanden zijn versleuteld. Een bericht vraagt om €15.000 om ze terug te krijgen.
             Je belt je IT-bedrijf. Die zegt: de back-up staat er, maar die is 8 maanden niet getest en lijkt corrupt.
             Je verzekeraar vraagt of je MFA had ingesteld. Je weet het niet zeker.
             De werkweek staat stil. En dat voor elke dag dat het duurt.
           </p>
-          <p className="mt-3 text-sm text-slate-400">
+          <p className="mt-3 text-sm text-slate-500">
             Dit scenario speelt zich jaarlijks af bij duizenden MKB-bedrijven in Nederland.
             Weet jij of jouw organisatie hiertegen beschermd is?
           </p>
-        </motion.div>
-
-        {/* CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.15 }}
-          className="mt-10 flex flex-col sm:flex-row items-start sm:items-center gap-4"
-        >
-          <Button onClick={scrollToScan} size="lg" className="bg-[#13AEEB] hover:bg-[#0f92c7] text-white">
-            Doe de gratis scan — weet het zeker
-          </Button>
-          <p className="text-sm text-slate-500">Gratis · 8 minuten · Direct inzicht</p>
         </motion.div>
 
       </div>
