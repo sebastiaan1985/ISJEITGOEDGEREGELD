@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { TrustStrip } from "@/components/TrustStrip";
 import { UrgencySection } from "@/components/UrgencySection";
+import { MascotteVideo } from "@/components/MascotteVideo";
 import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { HowItWorks } from "@/components/HowItWorks";
 import { ReportPreview } from "@/components/ReportPreview";
@@ -18,6 +19,7 @@ export default function Home() {
         <Hero />
         <TrustStrip />
         <UrgencySection />
+        <MascotteVideo />
         <ScanApp />
         <CategoriesGrid />
         <HowItWorks />
