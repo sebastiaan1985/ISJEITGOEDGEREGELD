@@ -19,7 +19,7 @@ export function BottomCTA() {
           Klaar om te ontdekken waar het beter kan?
         </h2>
         <p className="mt-4 text-white/75 text-lg">
-          5 minuten. Geen registratie. Direct je rapport.
+          5 minuten. Geen technische kennis nodig. Direct je rapport.
         </p>
         <div className="mt-8 flex justify-center">
           <Button onClick={scrollToScan} size="lg" variant="white">

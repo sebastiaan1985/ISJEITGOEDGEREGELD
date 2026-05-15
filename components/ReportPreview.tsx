@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 import { Check } from "lucide-react";
 
 const points = [
-  "Totaalscore (1–100) met directe duiding",
-  "Score per categorie met top-3 verbeterpunten",
-  "Concrete adviezen toegesneden op MKB",
-  "Bespreking met een Cloud1-specialist — alleen als je dat wilt",
+  "Totaalscore en categoriescores met duidelijke duiding",
+  "Top 5 prioriteiten zodat je weet waar je moet beginnen",
+  "Per vraag: gevolg, betere inrichting en praktische Cloud ÉÉN-koppeling",
+  "Directe PDF-download na het achterlaten van gegevens",
 ];
 
 export function ReportPreview() {
@@ -21,8 +21,8 @@ export function ReportPreview() {
               Wat krijg je na de scan?
             </h2>
             <p className="mt-4 text-slate-600 leading-relaxed">
-              Een helder rapport dat je intern of met je IT-partner kunt bespreken.
-              Geen verkooppraatje, wel concrete inzichten.
+              Een helder rapport dat je intern of met je IT-partner kunt bespreken. De scan blijft
+              kort tijdens het invullen; de echte uitleg krijg je overzichtelijk aan het einde.
             </p>
             <ul className="mt-8 space-y-4">
               {points.map((p, i) => (

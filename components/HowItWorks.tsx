@@ -5,18 +5,18 @@ import { motion } from "framer-motion";
 const steps = [
   {
     num: 1,
-    title: "Korte intake (1 min)",
-    body: "Vertel kort wie je bent en hoe groot je bedrijf is. Zo maken we het rapport relevant.",
+    title: "24 vragen (4 min)",
+    body: "Vier onderwerpen, zes vragen per onderwerp. Meerkeuze, geen technische kennis nodig. Je kan altijd terug.",
   },
   {
     num: 2,
-    title: "24 vragen (4 min)",
-    body: "Vier onderwerpen, zes vragen per onderwerp. Meerkeuze. Je kan altijd terug.",
+    title: "Korte intake (1 min)",
+    body: "Vul je gegevens in zodat we het rapport persoonlijk maken voor jouw organisatie.",
   },
   {
     num: 3,
     title: "Direct je rapport",
-    body: "Je ziet meteen je score per onderdeel. Je krijgt het rapport ook in je mailbox.",
+    body: "Je ziet meteen je score per onderdeel, met concrete inzichten. Je krijgt het rapport ook in je mailbox.",
   },
 ];
 

@@ -9,13 +9,13 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Cloud1 IT-Scan — Hoe staat jouw IT ervoor? | Cloud1",
+  title: "Cloud1 IT-Scan - Hoe staat jouw IT ervoor? | Cloud1",
   description:
-    "In 5 minuten zie je waar het loopt en waar het beter kan — over werkplekken, beveiliging, internet/telefonie en IT-beheer. Geen technische kennis nodig.",
+    "Doe de gratis Cloud1 IT-Scan. In gewone taal inzicht in je werkplek, beveiliging, Microsoft 365 en IT-beheer.",
   openGraph: {
-    title: "Cloud1 IT-Scan — Hoe staat jouw IT ervoor?",
+    title: "Cloud1 IT-Scan - Hoe staat jouw IT ervoor?",
     description:
-      "Doe de gratis Cloud1 IT-Scan. In 5 minuten inzicht in je werkplek, beveiliging, connectiviteit en IT-beheer. Direct rapport.",
+      "In 5 minuten inzicht in je werkplek, beveiliging, connectiviteit en IT-beheer. Geen technische kennis nodig.",
     type: "website",
     locale: "nl_NL",
   },

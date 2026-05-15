@@ -9,6 +9,7 @@ export type Question = {
   category: 0 | 1 | 2 | 3;
   index: 0 | 1 | 2 | 3 | 4 | 5;
   text: string;
+  scenario?: string;
   options: [AnswerOption, AnswerOption, AnswerOption, AnswerOption];
 };
 
@@ -34,6 +35,7 @@ export const QUESTIONS: Question[] = [
     category: 0,
     index: 0,
     text: "Hoe ziet het er nu uit als iemand een nieuwe laptop krijgt?",
+    scenario: "Je nieuwe medewerker start maandag. Hoe snel is hij of zij écht productief?",
     options: [
       opt("A", "We doen weinig — de gebruiker installeert wat hij of zij nodig heeft", 0),
       opt("B", "Een collega of leverancier zet hem handmatig in", 33),
@@ -69,12 +71,13 @@ export const QUESTIONS: Question[] = [
     id: "1.4",
     category: 0,
     index: 3,
-    text: "Hoe komt software op de werkplek terecht?",
+    text: "Wat gebeurt er als een medewerker uit dienst gaat?",
+    scenario: "Iemand vertrekt naar een concurrent. Hoe snel en zeker is de toegang tot jullie data afgesloten?",
     options: [
-      opt("A", "Iedereen installeert zelf wat hij of zij wil", 0),
-      opt("B", "IT installeert op aanvraag", 33),
-      opt("C", "Standaardpakket bij start, rest op aanvraag", 67),
-      opt("D", "Software wordt automatisch klaargezet op basis van rol of afdeling", 100),
+      opt("A", "We moeten handmatig overal aan denken, soms vergeten we een systeem", 0),
+      opt("B", "We hebben een checklist, maar het kost veel handmatig werk", 33),
+      opt("C", "Toegang tot de belangrijkste systemen wordt via één knop uitgezet", 67),
+      opt("D", "Volledig geautomatiseerde offboarding: accounts, toegang en data direct geblokkeerd en overgedragen", 100),
     ],
   },
   {
@@ -144,6 +147,7 @@ export const QUESTIONS: Question[] = [
     category: 1,
     index: 3,
     text: "Hoe is jullie data (mail, OneDrive, SharePoint) gewaarborgd als er iets misgaat?",
+    scenario: "Stel: een medewerker verwijdert per ongeluk een complete projectmap uit SharePoint.",
     options: [
       opt("A", "Daar zit standaard back-up van Microsoft op (let op: dat is helaas niet zo)", 0),
       opt("B", "We kunnen verwijderde bestanden uit de prullenbak halen", 33),
@@ -168,6 +172,7 @@ export const QUESTIONS: Question[] = [
     category: 1,
     index: 5,
     text: "Wat is jullie plan als er morgen écht iets misgaat (datalek, gijzeling)?",
+    scenario: "Het is maandagochtend. Al je bestanden zijn versleuteld door ransomware. De telefoon gaat.",
     options: [
       opt("A", "Geen idee — we hopen dat het niet gebeurt", 0),
       opt("B", "We bellen onze IT-leverancier en zien dan wel", 33),
@@ -182,6 +187,7 @@ export const QUESTIONS: Question[] = [
     category: 2,
     index: 0,
     text: "Hoe stabiel is jullie internet op kantoor?",
+    scenario: "Midden op een drukke werkdag valt het internet uit. Wat gebeurt er?",
     options: [
       opt("A", "Eén verbinding — gaat-ie eruit, dan ligt alles plat", 0),
       opt("B", "Eén snelle verbinding (glasvezel), geen back-up", 33),
@@ -207,10 +213,10 @@ export const QUESTIONS: Question[] = [
     index: 2,
     text: "Hoe regelen jullie vaste telefonie of het algemene nummer?",
     options: [
-      opt("A", "We hebben nog een klassieke telefooncentrale staan", 0),
-      opt("B", "Bellen via een externe provider, los van Teams", 33),
-      opt("C", "Bellen via Microsoft Teams (Teams Phone)", 67),
-      opt("D", "Teams Phone met integratie naar onze klantsystemen (caller-info, notities)", 100),
+      opt("A", "We hebben nog een fysieke centrale op locatie waar we via internet mee bellen", 0),
+      opt("B", "We hebben een VoIP oplossing", 33),
+      opt("C", "We hebben een VoIP oplossing waar mobiele telefonie ook onderdeel van is", 67),
+      opt("D", "We maken gebruik van Microsoft Teams", 100),
     ],
   },
   {
@@ -231,22 +237,23 @@ export const QUESTIONS: Question[] = [
     index: 4,
     text: "Hoe goed bereikbaar zijn medewerkers vanaf overal?",
     options: [
-      opt("A", "Eigenlijk alleen op kantoor goed bereikbaar", 0),
-      opt("B", "Mail werkt thuis, bellen is gedoe", 33),
-      opt("C", "Bellen, chatten en mailen vanaf elk apparaat", 67),
-      opt("D", "Eén nummer, één tool — overal werkt het hetzelfde", 100),
+      opt("A", "Eigenlijk zijn we alleen goed bereikbaar wanneer we op kantoor werken", 0),
+      opt("B", "Medewerkers hebben een zakelijke mobiele telefoon, los van het bedrijfsnummer", 33),
+      opt("C", "Medewerkers hebben een zakelijke mobiel die gekoppeld is aan de centrale (vast-mobiel integratie)", 67),
+      opt("D", "Naadloos en optimaal bereikbaar op elk apparaat (integratie van vast, mobiel én Teams)", 100),
     ],
   },
   {
     id: "3.6",
     category: 2,
     index: 5,
-    text: "Hoe vergader je met externen en hybride teams?",
+    text: "Gebruiken jullie al AI-tools — zoals Copilot — in het dagelijks werk?",
+    scenario: "Een collega besteedt elke week uren aan het samenvatten van vergaderingen en opstellen van mails.",
     options: [
-      opt("A", "We vergaderen eigenlijk fysiek", 0),
-      opt("B", "Losse webcams en koptelefoons in de vergaderzaal", 33),
-      opt("C", "Vergaderruimtes ingericht voor Teams", 67),
-      opt("D", "Gecertificeerde Teams Rooms — iedereen heeft dezelfde ervaring, fysiek of online", 100),
+      opt("A", "Nee, daar zijn we nog niet mee bezig", 0),
+      opt("B", "Sommige collega's experimenteren op eigen initiatief met ChatGPT of vergelijkbare tools", 33),
+      opt("C", "We gebruiken AI-tools, maar zonder duidelijke afspraken of richtlijnen", 67),
+      opt("D", "AI-tools zijn bewust uitgerold, met richtlijnen, training en afstemming op onze werkwijze", 100),
     ],
   },
 
@@ -256,6 +263,7 @@ export const QUESTIONS: Question[] = [
     category: 3,
     index: 0,
     text: "Wie regelt jullie IT in de dagelijkse praktijk?",
+    scenario: "Het is vrijdagmiddag 17:00 uur. Een kritiek systeem werkt niet meer.",
     options: [
       opt("A", "Eigenlijk niemand specifiek — we improviseren", 0),
       opt("B", "Een collega die er handig in is", 33),
@@ -279,12 +287,12 @@ export const QUESTIONS: Question[] = [
     id: "4.3",
     category: 3,
     index: 2,
-    text: "Hoe goed staat jullie IT op papier?",
+    text: "Werken jullie nog met een lokale server op kantoor, of is alles cloud?",
     options: [
-      opt("A", "Vooral in de hoofden van een paar mensen", 0),
-      opt("B", "Wat losse documenten op een gedeelde schijf", 33),
-      opt("C", "Een actueel overzicht van wat we hebben", 67),
-      opt("D", "Volledige documentatie die automatisch actueel blijft", 100),
+      opt("A", "We hebben nog meerdere lokale servers draaien voor bestanden en software", 0),
+      opt("B", "Grotendeels cloud, maar nog een server voor een specifieke applicatie", 33),
+      opt("C", "Volledig in de cloud, maar zonder overkoepelend beheer", 67),
+      opt("D", "100% cloud en centraal beheerd als één moderne werkplek", 100),
     ],
   },
   {
@@ -303,7 +311,7 @@ export const QUESTIONS: Question[] = [
     id: "4.5",
     category: 3,
     index: 4,
-    text: "Voldoe je aan eisen zoals NIS2, ISO of klant-audits?",
+    text: "Voldoe je aan eisen zoals ISO, klant-audits of verzekeringsvragen?",
     options: [
       opt("A", "Geen idee, niet over nagedacht", 0),
       opt("B", "We werken eraan, maar zijn er nog niet", 33),

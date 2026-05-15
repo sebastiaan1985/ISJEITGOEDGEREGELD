@@ -4,6 +4,7 @@ import type { Intake, Scores } from "../types";
 import { zoneFor, zoneHex } from "../scoring";
 import { ZONE_LABEL, ZONE_INTRO, TOTAL_SCORE_HEADLINE } from "../zoneText";
 import { pickTips, GREEN_FALLBACK } from "../recommendations";
+import { buildScanSummary } from "../cloud1OfferMapping";
 
 const styles = StyleSheet.create({
   page: {
@@ -61,6 +62,7 @@ type Props = { intake: Intake; answers: number[]; scores: Scores };
 
 export function ReportDocument({ intake, answers, scores }: Props) {
   const totalZone = zoneFor(scores.total);
+  const summary = buildScanSummary(answers, scores);
   const answersByQuestionId: Record<string, number> = {};
   answers.forEach((score, idx) => {
     answersByQuestionId[QUESTIONS[idx].id] = score;
@@ -70,7 +72,7 @@ export function ReportDocument({ intake, answers, scores }: Props) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.brandRow}>
-          <Text style={styles.brand}>Cloud1 IT-Scan</Text>
+          <Text style={styles.brand}>Cloud ÉÉN IT-Scan</Text>
           <Text style={styles.metaText}>
             Rapport voor {intake.company} · {new Date().toLocaleDateString("nl-NL")}
           </Text>
@@ -99,6 +101,19 @@ export function ReportDocument({ intake, answers, scores }: Props) {
             <Text>{ZONE_LABEL[totalZone]}</Text>
           </View>
         </View>
+
+        <Text style={styles.sectionTitle}>Topprioriteiten</Text>
+        {summary.topPriorities.map((item, index) => (
+          <View key={item.id} style={styles.catCard} wrap={false}>
+            <Text style={styles.catTitle}>
+              {index + 1}. {item.category} · {item.score} / 100
+            </Text>
+            <Text style={styles.zoneIntro}>{item.question}</Text>
+            <Text style={styles.tip}>Gevolg: {item.consequence}</Text>
+            <Text style={styles.tip}>Beter inrichten: {item.betterSetup}</Text>
+            <Text style={styles.tip}>Cloud ÉÉN-koppeling: {item.cloud1Fit}</Text>
+          </View>
+        ))}
 
         <Text style={styles.sectionTitle}>Resultaten per categorie</Text>
 
@@ -130,10 +145,10 @@ export function ReportDocument({ intake, answers, scores }: Props) {
           Dit rapport is een gespreksstartdocument. Onze specialisten kijken graag samen met jou
           waar de grootste impact zit — vrijblijvend en zonder verkooppraat.
         </Text>
-        <Text style={styles.meta}>Cloud1 · info@cloud1.nl · cloud1.nl</Text>
+        <Text style={styles.meta}>Cloud ÉÉN · info@cloud1.nl · cloud1.nl</Text>
 
         <View style={styles.footer} fixed>
-          <Text>Cloud1 IT-Scan</Text>
+          <Text>Cloud ÉÉN IT-Scan</Text>
           <Text render={({ pageNumber, totalPages }) => `Pagina ${pageNumber} / ${totalPages}`} />
         </View>
       </Page>

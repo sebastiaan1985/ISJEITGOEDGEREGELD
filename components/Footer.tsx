@@ -1,6 +1,8 @@
 import { Cloud1Logo } from "./ui/Cloud1Logo";
 
 export function Footer() {
+  const reviewsUrl = "https://www.google.com/search?q=Cloud1+reviews";
+
   return (
     <footer className="bg-[#0B1F3A] text-white/70 border-t border-white/10">
       <div className="mx-auto max-w-7xl px-5 md:px-8 py-14">
@@ -12,6 +14,18 @@ export function Footer() {
               <br />
               Werkplek, security, cloud & beheer.
             </p>
+            <a
+              href={reviewsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-5 inline-flex flex-col gap-1 rounded-xl border border-white/10 bg-white/5 px-4 py-3 transition hover:bg-white/10"
+            >
+              <span className="text-sm font-semibold text-white">4.8/5 Google Reviews</span>
+              <span className="text-[#F59E0B]" aria-hidden="true">★★★★★</span>
+              <span className="text-xs text-white/60 underline underline-offset-2">
+                Lees direct wat klanten zeggen
+              </span>
+            </a>
           </div>
           <div>
             <h4 className="text-white font-semibold text-sm">Diensten</h4>
@@ -35,7 +49,7 @@ export function Footer() {
             <h4 className="text-white font-semibold text-sm">Contact</h4>
             <ul className="mt-4 space-y-2 text-sm">
               <li>info@cloud1.nl</li>
-              <li>085 - 000 0000</li>
+              <li>085-4865555</li>
               <li className="pt-2"><a href="#" className="hover:text-white">Plan een gesprek</a></li>
             </ul>
           </div>

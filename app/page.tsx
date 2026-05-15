@@ -1,5 +1,6 @@
 import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
+import { TrustStrip } from "@/components/TrustStrip";
 import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { HowItWorks } from "@/components/HowItWorks";
 import { ReportPreview } from "@/components/ReportPreview";
@@ -14,10 +15,11 @@ export default function Home() {
       <Header />
       <main className="flex-1">
         <Hero />
+        <TrustStrip />
+        <ScanApp />
         <CategoriesGrid />
         <HowItWorks />
         <ReportPreview />
-        <ScanApp />
         <FAQ />
         <BottomCTA />
       </main>

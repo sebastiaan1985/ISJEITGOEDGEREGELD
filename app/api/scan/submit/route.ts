@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { renderToBuffer } from "@react-pdf/renderer";
 import { Resend } from "resend";
-import { ReportDocument } from "@/lib/pdf/ReportDocument";
+import { renderToBuffer } from "@react-pdf/renderer";
+import { buildScanSummary } from "@/lib/cloud1OfferMapping";
 import { classify, LEAD_LABEL } from "@/lib/leadRouting";
-import { CATEGORIES, QUESTIONS } from "@/lib/questions";
-import { zoneFor } from "@/lib/scoring";
+import { ReportDocument } from "@/lib/pdf/ReportDocument";
 import { INDUSTRIES, M365_BUCKETS, SIZE_BUCKETS } from "@/lib/types";
 
 export const runtime = "nodejs";
@@ -18,9 +17,12 @@ const intakeSchema = z.object({
   size: z.enum(SIZE_BUCKETS),
   m365Users: z.enum(M365_BUCKETS),
   email: z.email(),
+  phone: z.string().optional(),
 });
 
 const bodySchema = z.object({
+  scanType: z.literal("it-health").default("it-health"),
+  intent: z.enum(["lead-capture", "send-report"]).default("send-report"),
   intake: intakeSchema,
   answers: z.array(z.number().min(0).max(100)).length(24),
   scores: z.object({
@@ -38,110 +40,185 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
-  const { intake, answers, scores } = payload;
-  const leadType = classify(intake);
+  const leadType = classify(payload.intake);
+  const summary = buildScanSummary(payload.answers, payload.scores);
+  const storage = await storeLead(payload, summary, leadType);
+  const notification = await sendLeadNotification(payload, summary, leadType, storage.leadId);
 
-  const apiKey = process.env.RESEND_API_KEY;
-  const fromAddress = process.env.MAIL_FROM || "Cloud1 IT-Scan <onboarding@resend.dev>";
-  const salesAddress = process.env.LEAD_NOTIFICATION_EMAIL || "sales@cloud1.nl";
+  return NextResponse.json({
+    ok: true,
+    mailSent: notification.sent,
+    leadType,
+    stored: storage.stored,
+    leadId: storage.leadId,
+    storageError: storage.error,
+    notificationError: notification.error,
+    topPriorities: summary.topPriorities,
+    packageAdvice: summary.packageAdvice,
+  });
+}
 
-  let pdfBuffer: Buffer;
-  try {
-    pdfBuffer = await renderToBuffer(
-      ReportDocument({ intake, answers, scores }),
-    );
-  } catch (err) {
-    console.error("PDF generation failed", err);
-    return NextResponse.json({ ok: false, error: "pdf_failed" }, { status: 500 });
+async function storeLead(
+  payload: z.infer<typeof bodySchema>,
+  summary: ReturnType<typeof buildScanSummary>,
+  leadType: ReturnType<typeof classify>,
+): Promise<{ stored: boolean; leadId?: string; error?: string }> {
+  const supabaseUrl = process.env.SUPABASE_URL?.replace(/\/$/, "");
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceKey) {
+    console.warn("Supabase is not configured - lead storage skipped.");
+    return { stored: false, error: "supabase_not_configured" };
   }
 
-  if (!apiKey) {
-    console.warn("RESEND_API_KEY not configured — skipping mail send (PDF was generated).");
-    return NextResponse.json({ ok: true, mailSent: false, leadType });
-  }
-
-  const resend = new Resend(apiKey);
-  const pdfBase64 = pdfBuffer.toString("base64");
-  const filename = `Cloud1-IT-Scan-${intake.company.replace(/[^a-z0-9]/gi, "-")}.pdf`;
+  const record = {
+    scan_type: payload.scanType,
+    lead_type: leadType,
+    first_name: payload.intake.firstName,
+    company: payload.intake.company,
+    industry: payload.intake.industry,
+    company_size: payload.intake.size,
+    m365_users: payload.intake.m365Users,
+    email: payload.intake.email,
+    phone: payload.intake.phone || null,
+    total_score: payload.scores.total,
+    category_scores: payload.scores.perCategory,
+    weakest_categories: summary.weakestCategories,
+    top_priorities: summary.topPriorities.map((item) => ({
+      id: item.id,
+      category: item.category,
+      question: item.question,
+      score: item.score,
+      priority: item.priority,
+      consequence: item.consequence,
+      betterSetup: item.betterSetup,
+      cloud1Fit: item.cloud1Fit,
+    })),
+    package_advice: summary.packageAdvice,
+    report_status: "download_started",
+    source: "cloud1-it-scan",
+  };
 
   try {
-    await resend.emails.send({
-      from: fromAddress,
-      to: intake.email,
-      subject: `${intake.firstName}, jouw Cloud1 IT-Scan rapport (${scores.total}/100)`,
-      html: prospectEmail(intake, scores.total),
-      attachments: [{ filename, content: pdfBase64 }],
+    const response = await fetch(`${supabaseUrl}/rest/v1/scan_leads`, {
+      method: "POST",
+      headers: {
+        apikey: serviceKey,
+        Authorization: `Bearer ${serviceKey}`,
+        "Content-Type": "application/json",
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(record),
     });
 
-    if (leadType !== "self-serve") {
-      await resend.emails.send({
-        from: fromAddress,
-        to: salesAddress,
-        subject: `[Cloud1 Scan] ${LEAD_LABEL[leadType]} — ${intake.company} — score ${scores.total}/100`,
-        html: salesEmail(intake, answers, scores, leadType),
-        attachments: [{ filename, content: pdfBase64 }],
-      });
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error("Supabase lead insert failed", errorText);
+      return { stored: false, error: "supabase_insert_failed" };
     }
+
+    const rows = (await response.json()) as Array<{ id?: string }>;
+    return { stored: true, leadId: rows[0]?.id };
   } catch (err) {
-    console.error("Mail send failed", err);
-    return NextResponse.json({ ok: false, error: "mail_failed" }, { status: 500 });
+    console.error("Supabase lead insert failed", err);
+    return { stored: false, error: "supabase_request_failed" };
+  }
+}
+
+async function sendLeadNotification(
+  payload: z.infer<typeof bodySchema>,
+  summary: ReturnType<typeof buildScanSummary>,
+  leadType: ReturnType<typeof classify>,
+  leadId?: string,
+): Promise<{ sent: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const toAddress = process.env.LEAD_NOTIFICATION_EMAIL;
+  const fromAddress = process.env.MAIL_FROM || "Cloud ÉÉN IT-Scan <onboarding@resend.dev>";
+
+  if (!apiKey || !toAddress) {
+    return { sent: false, error: "mail_not_configured" };
   }
 
-  return NextResponse.json({ ok: true, mailSent: true, leadType });
+  try {
+    const resend = new Resend(apiKey);
+    const pdfBuffer = await renderToBuffer(
+      ReportDocument({ intake: payload.intake, answers: payload.answers, scores: payload.scores }),
+    );
+    const filename = `Cloud-EEN-IT-Scan-${payload.intake.company.replace(/[^a-z0-9]/gi, "-")}.pdf`;
+
+    await resend.emails.send({
+      from: fromAddress,
+      to: toAddress,
+      subject: `[Cloud ÉÉN IT-Scan] ${payload.intake.company} - score ${payload.scores.total}/100`,
+      html: buildSalesEmail(payload, summary, leadType, leadId),
+      attachments: [{ filename, content: pdfBuffer.toString("base64") }],
+    });
+
+    return { sent: true };
+  } catch (err) {
+    console.error("Lead notification failed", err);
+    return { sent: false, error: "mail_send_failed" };
+  }
 }
 
-function prospectEmail(intake: { firstName: string }, score: number): string {
-  const zone = zoneFor(score);
-  const zoneText: Record<typeof zone, string> = {
-    red: "Er liggen flinke kansen om je IT robuuster te maken.",
-    orange: "Je hebt een werkbare basis — een paar gerichte stappen tillen het hoger.",
-    green: "Je doet het goed. We zien nog ruimte voor fine-tuning.",
-  };
-  return `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; color: #0F172A; max-width: 560px; margin: 0 auto;">
-      <p>Hoi ${intake.firstName},</p>
-      <p>Bedankt voor het invullen van de Cloud1 IT-Scan. Je rapport zit als PDF bij deze mail.</p>
-      <p><strong>Je totaalscore: ${score} / 100.</strong> ${zoneText[zone]}</p>
-      <p>Mocht je samen door het rapport heen willen — vrijblijvend en zonder verkooppraat — plan dan een gesprek via onze planner of stuur deze mail terug.</p>
-      <p>Groet,<br/>Team Cloud1</p>
-    </div>
-  `;
-}
-
-function salesEmail(
-  intake: z.infer<typeof intakeSchema>,
-  answers: number[],
-  scores: { total: number; perCategory: number[] },
+function buildSalesEmail(
+  payload: z.infer<typeof bodySchema>,
+  summary: ReturnType<typeof buildScanSummary>,
   leadType: ReturnType<typeof classify>,
+  leadId?: string,
 ): string {
-  const top5 = answers
-    .map((a, i) => ({ q: QUESTIONS[i], score: a }))
-    .sort((a, b) => a.score - b.score)
-    .slice(0, 5);
-
-  const catRows = scores.perCategory
-    .map((s, i) => `<li><strong>${CATEGORIES[i]}:</strong> ${s}/100 (${zoneFor(s)})</li>`)
+  const topPriorities = summary.topPriorities
+    .map(
+      (item) => `
+        <li style="margin-bottom:12px">
+          <strong>${escapeHtml(item.category)} (${item.score}/100)</strong><br/>
+          ${escapeHtml(item.question)}<br/>
+          <span style="color:#475569">${escapeHtml(item.betterSetup)}</span>
+        </li>
+      `,
+    )
     .join("");
 
-  const top5Rows = top5
-    .map((t) => `<li><strong>${t.q.id}</strong> (${t.score}): ${t.q.text}</li>`)
+  const weakestCategories = summary.weakestCategories
+    .map((item) => `<li><strong>${escapeHtml(item.name)}:</strong> ${item.score}/100</li>`)
     .join("");
 
   return `
-    <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif; color: #0F172A;">
-      <h2 style="color: #13AEEB;">Nieuwe scan — ${LEAD_LABEL[leadType]}</h2>
-      <p><strong>${intake.company}</strong> · ${intake.industry}</p>
+    <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#0f172a;line-height:1.5;max-width:680px">
+      <h2 style="color:#13AEEB;margin:0 0 8px">Nieuwe Cloud ÉÉN IT-Scan lead</h2>
+      <p style="margin:0 0 18px;color:#475569">Leadtype: ${escapeHtml(LEAD_LABEL[leadType])}</p>
+
+      <h3>Contact</h3>
       <ul>
-        <li>Contact: ${intake.firstName} — ${intake.email}</li>
-        <li>Grootte: ${intake.size}</li>
-        <li>M365-gebruikers: ${intake.m365Users}</li>
+        <li><strong>Naam:</strong> ${escapeHtml(payload.intake.firstName)}</li>
+        <li><strong>Bedrijf:</strong> ${escapeHtml(payload.intake.company)}</li>
+        <li><strong>E-mail:</strong> ${escapeHtml(payload.intake.email)}</li>
+        ${payload.intake.phone ? `<li><strong>Telefoon:</strong> ${escapeHtml(payload.intake.phone)}</li>` : ""}
+        <li><strong>Branche:</strong> ${escapeHtml(payload.intake.industry)}</li>
+        <li><strong>Grootte:</strong> ${escapeHtml(payload.intake.size)}</li>
+        <li><strong>Microsoft 365-gebruikers:</strong> ${escapeHtml(payload.intake.m365Users)}</li>
+        ${leadId ? `<li><strong>Supabase lead-id:</strong> ${escapeHtml(leadId)}</li>` : ""}
       </ul>
-      <p><strong>Totaalscore: ${scores.total}/100</strong></p>
-      <h3>Per categorie</h3>
-      <ul>${catRows}</ul>
-      <h3>Top 5 laagst-scorende vragen</h3>
-      <ol>${top5Rows}</ol>
-      <p>PDF-rapport bijgevoegd.</p>
+
+      <h3>Score</h3>
+      <p><strong>Totaalscore: ${payload.scores.total}/100</strong></p>
+      <ul>${weakestCategories}</ul>
+
+      <h3>Topprioriteiten</h3>
+      <ol>${topPriorities}</ol>
+
+      <h3>Aanbevolen opvolging</h3>
+      <p><strong>${escapeHtml(summary.packageAdvice.title)}</strong><br/>
+      ${escapeHtml(summary.packageAdvice.summary)}</p>
     </div>
   `;
+}
+
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }

@@ -43,12 +43,17 @@ export type Intake = {
   size: SizeBucket;
   m365Users: M365Bucket;
   email: string;
+  phone?: string;
 };
+
+export type ScanType = "it-health";
 
 export type Zone = "red" | "orange" | "green";
 
 export type ScanPhase =
   | "intro"
+  | "chooser"
+  | "teaser"
   | "intake"
   | "question"
   | "category-complete"

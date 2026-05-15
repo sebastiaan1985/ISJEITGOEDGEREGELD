@@ -26,13 +26,18 @@ const SIZE_LABEL: Record<SizeBucket, string> = {
   "500+": "500+ medewerkers",
 };
 
-export function Intake({ onSubmit }: { onSubmit: (data: IntakeData) => void }) {
+export function Intake({
+  onSubmit,
+}: {
+  onSubmit: (data: IntakeData) => void;
+}) {
   const [firstName, setFirstName] = useState("");
   const [company, setCompany] = useState("");
   const [industry, setIndustry] = useState<Industry | "">("");
   const [size, setSize] = useState<SizeBucket | "">("");
   const [m365Users, setM365Users] = useState<M365Bucket | "">("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
 
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const valid =
@@ -53,6 +58,7 @@ export function Intake({ onSubmit }: { onSubmit: (data: IntakeData) => void }) {
       size: size as SizeBucket,
       m365Users: m365Users as M365Bucket,
       email: email.trim(),
+      phone: phone.trim() || undefined,
     });
   };
 
@@ -65,12 +71,12 @@ export function Intake({ onSubmit }: { onSubmit: (data: IntakeData) => void }) {
       className="space-y-5"
     >
       <div className="text-center md:text-left">
-        <p className="eyebrow">Korte intake</p>
+        <p className="eyebrow">Bijna klaar!</p>
         <h3 className="mt-2 text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
-          Vertel kort iets over je bedrijf
+          Vul je gegevens in voor je volledige IT-rapport
         </h3>
         <p className="mt-2 text-sm text-slate-600">
-          Zo maken we het rapport relevant voor jouw situatie.
+          Je eerste uitkomst staat klaar. Met deze gegevens maken we het advies relevant voor jouw organisatie en kan een Cloud1-specialist gericht met je meekijken als je dat wilt.
         </p>
       </div>
 
@@ -148,24 +154,35 @@ export function Intake({ onSubmit }: { onSubmit: (data: IntakeData) => void }) {
         </Field>
       </div>
 
-      <Field label="Zakelijk e-mailadres" hint="We sturen je rapport hierheen." required>
-        <input
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="email"
-          autoComplete="email"
-          className={inputCls}
-          required
-        />
-      </Field>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Field label="Zakelijk e-mailadres" hint="We sturen je rapport hierheen." required>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            autoComplete="email"
+            className={inputCls}
+            required
+          />
+        </Field>
+        <Field label="Telefoonnummer" hint="Optioneel, als we je mogen bellen.">
+          <input
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+            type="tel"
+            autoComplete="tel"
+            className={inputCls}
+          />
+        </Field>
+      </div>
 
       <p className="text-xs text-slate-500">
-        We gebruiken deze gegevens om je rapport relevant te maken. Geen spam — beloofd.
+        We gebruiken deze gegevens om je rapport relevant te maken en opvolging mogelijk te maken. Geen spam — beloofd.
       </p>
 
       <div className="pt-2 flex justify-end">
         <Button type="submit" disabled={!valid} size="lg">
-          Start de vragen →
+          Bekijk mijn volledige resultaat →
         </Button>
       </div>
     </motion.form>

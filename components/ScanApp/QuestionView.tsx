@@ -63,6 +63,11 @@ export function QuestionView({
       <h3 className="mt-3 text-xl md:text-[1.4rem] font-semibold text-slate-900 leading-snug">
         {q.text}
       </h3>
+      {q.scenario && (
+        <p className="mt-2 text-sm text-slate-500 italic leading-relaxed">
+          💡 {q.scenario}
+        </p>
+      )}
 
       <div role="radiogroup" className="mt-6 space-y-3">
         {q.options.map((opt) => {

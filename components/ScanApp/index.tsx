@@ -8,6 +8,7 @@ import { QuestionView } from "./QuestionView";
 import { CategoryComplete } from "./CategoryComplete";
 import { ResultView } from "./ResultView";
 import { ProgressBar } from "./ProgressBar";
+import { TeaserView } from "./TeaserView";
 import { QUESTIONS, QUESTIONS_PER_CATEGORY, TOTAL_QUESTIONS, getQuestion } from "@/lib/questions";
 import { categoryScore, totalScore } from "@/lib/scoring";
 import type { Intake as IntakeData, ScanPhase, Scores } from "@/lib/types";
@@ -22,7 +23,9 @@ type State = {
 };
 
 type Action =
+  | { type: "RESET" }
   | { type: "START" }
+  | { type: "UNLOCK" }
   | { type: "INTAKE_DONE"; intake: IntakeData }
   | { type: "SELECT"; score: number }
   | { type: "NEXT" }
@@ -45,10 +48,14 @@ function indexOf(cat: number, q: number): number {
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
+    case "RESET":
+      return initial;
     case "START":
+      return { ...state, phase: "question" };
+    case "UNLOCK":
       return { ...state, phase: "intake" };
     case "INTAKE_DONE":
-      return { ...state, intake: action.intake, phase: "question" };
+      return { ...state, intake: action.intake, phase: "result" };
     case "SELECT": {
       const idx = indexOf(state.currentCategory, state.currentQuestion);
       const next = [...state.answers];
@@ -75,7 +82,19 @@ function reducer(state: State, action: Action): State {
       const lastQuestionInCat = state.currentQuestion === 5;
       const lastCategory = state.currentCategory === 3;
       if (lastQuestionInCat && lastCategory) {
-        return { ...state, phase: "submitting" };
+        const perCategory: number[] = [];
+        for (let c = 0; c < 4; c++) {
+          const slice = state.answers.slice(
+            c * QUESTIONS_PER_CATEGORY,
+            (c + 1) * QUESTIONS_PER_CATEGORY,
+          );
+          perCategory.push(categoryScore(slice.map((a) => a ?? 0), c));
+        }
+        const scores: Scores = {
+          total: totalScore(perCategory),
+          perCategory: perCategory as Scores["perCategory"],
+        };
+        return { ...state, scores, phase: "teaser" };
       }
       if (lastQuestionInCat) {
         return { ...state, phase: "category-complete" };
@@ -100,7 +119,7 @@ function reducer(state: State, action: Action): State {
           c * QUESTIONS_PER_CATEGORY,
           (c + 1) * QUESTIONS_PER_CATEGORY,
         );
-        perCategory.push(categoryScore(slice.map((a) => a ?? 0)));
+        perCategory.push(categoryScore(slice.map((a) => a ?? 0), c));
       }
       const scores: Scores = {
         total: totalScore(perCategory),
@@ -113,16 +132,20 @@ function reducer(state: State, action: Action): State {
   }
 }
 
-export function ScanApp() {
+export function ScanApp({ autoStart = false }: { autoStart?: boolean }) {
   const [state, dispatch] = useReducer(reducer, initial);
+
+  // Auto-start wanneer de scan op een eigen pagina staat.
+  useEffect(() => {
+    if (autoStart && state.phase === "intro") {
+      dispatch({ type: "START" });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoStart]);
 
   useEffect(() => {
     if (state.phase === "category-complete") {
       const t = setTimeout(() => dispatch({ type: "AFTER_COMPLETE" }), 1200);
-      return () => clearTimeout(t);
-    }
-    if (state.phase === "submitting") {
-      const t = setTimeout(() => dispatch({ type: "COMPUTE_SCORES" }), 200);
       return () => clearTimeout(t);
     }
   }, [state.phase]);
@@ -133,6 +156,8 @@ export function ScanApp() {
   const showProgress =
     state.phase === "question" ||
     state.phase === "category-complete" ||
+    state.phase === "teaser" ||
+    state.phase === "intake" ||
     state.phase === "submitting" ||
     state.phase === "result";
 
@@ -148,7 +173,7 @@ export function ScanApp() {
               <ProgressBar
                 currentCategory={state.currentCategory}
                 currentQuestion={state.currentQuestion}
-                finished={state.phase === "result"}
+                finished={state.phase === "result" || state.phase === "teaser"}
               />
             </div>
           )}
@@ -156,6 +181,14 @@ export function ScanApp() {
           <AnimatePresence mode="wait">
             {state.phase === "intro" && (
               <Intro key="intro" onStart={() => dispatch({ type: "START" })} />
+            )}
+            {state.phase === "teaser" && state.scores && (
+              <TeaserView
+                key="teaser"
+                scores={state.scores}
+                onUnlock={() => dispatch({ type: "UNLOCK" })}
+                onRestart={() => dispatch({ type: "RESET" })}
+              />
             )}
             {state.phase === "intake" && (
               <Intake
@@ -176,7 +209,19 @@ export function ScanApp() {
               />
             )}
             {state.phase === "category-complete" && (
-              <CategoryComplete key="cc" category={state.currentCategory} />
+              <CategoryComplete
+                key="cc"
+                category={state.currentCategory}
+                categoryScore={categoryScore(
+                  state.answers
+                    .slice(
+                      state.currentCategory * QUESTIONS_PER_CATEGORY,
+                      (state.currentCategory + 1) * QUESTIONS_PER_CATEGORY,
+                    )
+                    .map((a) => a ?? 0),
+                  state.currentCategory,
+                )}
+              />
             )}
             {state.phase === "submitting" && (
               <div key="sub" className="py-12 text-center text-slate-500">
@@ -186,6 +231,7 @@ export function ScanApp() {
             {state.phase === "result" && state.scores && state.intake && (
               <ResultView
                 key="result"
+                scanType="it-health"
                 intake={state.intake}
                 answers={state.answers.map((a) => a ?? 0)}
                 scores={state.scores}

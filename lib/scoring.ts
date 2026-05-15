@@ -1,9 +1,25 @@
 import type { Zone } from "./types";
+import { QUESTIONS } from "./questions";
 
-export function categoryScore(answers: number[]): number {
+/* Gewichtsfactoren — security-kritische vragen wegen zwaarder */
+const WEIGHTS: Record<string, number> = {
+  "1.1": 1.0, "1.2": 1.0, "1.3": 1.0, "1.4": 0.9, "1.5": 1.1, "1.6": 1.0,
+  "2.1": 1.5, "2.2": 1.3, "2.3": 1.2, "2.4": 1.5, "2.5": 1.1, "2.6": 1.3,
+  "3.1": 1.1, "3.2": 0.9, "3.3": 1.0, "3.4": 0.8, "3.5": 1.0, "3.6": 0.8,
+  "4.1": 1.1, "4.2": 1.0, "4.3": 0.8, "4.4": 1.0, "4.5": 1.3, "4.6": 0.9,
+};
+
+export function categoryScore(answers: number[], category: number): number {
   if (answers.length === 0) return 0;
-  const sum = answers.reduce((a, b) => a + b, 0);
-  return Math.round(sum / answers.length);
+  let weightedSum = 0;
+  let totalWeight = 0;
+  answers.forEach((score, i) => {
+    const qId = `${category + 1}.${i + 1}`;
+    const w = WEIGHTS[qId] ?? 1.0;
+    weightedSum += score * w;
+    totalWeight += w;
+  });
+  return Math.round(weightedSum / totalWeight);
 }
 
 export function totalScore(perCategory: number[]): number {

@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Button } from "./ui/Button";
 import { Cloud1Logo } from "./ui/Cloud1Logo";
 
 export function Header() {
@@ -13,10 +12,6 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
-
-  const scrollToScan = () => {
-    document.getElementById("scanApp")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
 
   return (
     <header
@@ -30,7 +25,7 @@ export function Header() {
         <a href="#" aria-label="Cloud ÉÉN home" className="flex items-center">
           <Cloud1Logo
             className={`transition-colors duration-200 ${
-              scrolled ? "text-[#13AEEB]" : "text-white"
+              scrolled ? "text-[#13AEEB]" : "text-[#0B1F3A]"
             }`}
             width={110}
             height={42}
@@ -40,7 +35,7 @@ export function Header() {
           <a
             href="#hoe-werkt-het"
             className={`text-sm font-medium transition-colors ${
-              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-white/85 hover:text-white"
+              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-slate-700 hover:text-[#13AEEB]"
             }`}
           >
             Hoe werkt het
@@ -48,7 +43,7 @@ export function Header() {
           <a
             href="#rapport"
             className={`text-sm font-medium transition-colors ${
-              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-white/85 hover:text-white"
+              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-slate-700 hover:text-[#13AEEB]"
             }`}
           >
             Het rapport
@@ -56,15 +51,12 @@ export function Header() {
           <a
             href="#faq"
             className={`text-sm font-medium transition-colors ${
-              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-white/85 hover:text-white"
+              scrolled ? "text-slate-700 hover:text-[#13AEEB]" : "text-slate-700 hover:text-[#13AEEB]"
             }`}
           >
             Vragen
           </a>
         </nav>
-        <Button onClick={scrollToScan} size="md">
-          Start de scan
-        </Button>
       </div>
     </header>
   );
