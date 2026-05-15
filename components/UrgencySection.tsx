@@ -60,7 +60,7 @@ export function UrgencySection() {
         >
           <h2 className="text-[clamp(1.8rem,3vw,2.6rem)] font-bold text-slate-900 leading-[1.15] tracking-tight">
             De meeste ondernemers denken dat het goed zit.<br />
-            <span className="text-[#13AEEB]">Totdat het misgaat.</span>
+            <span className="text-gradient">Totdat het misgaat.</span>
           </h2>
           <p className="mt-4 text-slate-500 text-base leading-relaxed max-w-xl">
             Herken je jezelf in één van deze uitspraken? Dan weet je waarschijnlijk niet precies hoe kwetsbaar je bent.

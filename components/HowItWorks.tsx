@@ -39,10 +39,12 @@ export function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.42, delay: i * 0.1, ease: "easeOut" }}
-              className="relative bg-white rounded-2xl p-7 border border-slate-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+              className="relative bg-white rounded-2xl p-7 border border-slate-200 shadow-[0_2px_4px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-[0_4px_8px_rgba(15,23,42,0.06),0_16px_36px_rgba(19,174,235,0.12)] hover:border-[#13AEEB]/20 transition-all duration-250"
             >
-              <div className="w-12 h-12 rounded-full bg-[#13AEEB] text-white font-bold text-xl flex items-center justify-center">
-                {step.num}
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#13AEEB] to-[#50E6FF] p-[2px] shadow-[0_4px_14px_rgba(19,174,235,0.35)]">
+                <div className="w-full h-full rounded-full bg-white flex items-center justify-center">
+                  <span className="text-[#13AEEB] font-bold text-xl">{step.num}</span>
+                </div>
               </div>
               <h3 className="mt-5 text-lg font-semibold text-slate-900">{step.title}</h3>
               <p className="mt-2 text-sm text-slate-600 leading-relaxed">{step.body}</p>

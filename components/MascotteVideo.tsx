@@ -15,9 +15,17 @@ export function MascotteVideo() {
   };
 
   return (
-    <section className="py-10 md:py-14 bg-white flex justify-center">
+    <section className="py-10 md:py-14 bg-white flex justify-center relative overflow-hidden">
+      {/* Zachte glow achter de video */}
       <div
-        className="relative w-full max-w-xl overflow-hidden rounded-2xl cursor-pointer"
+        className="absolute inset-0 flex items-center justify-center pointer-events-none"
+        aria-hidden="true"
+      >
+        <div className="w-[520px] h-[320px] rounded-full bg-[#13AEEB]/10 blur-[72px]" />
+      </div>
+
+      <div
+        className="relative w-full max-w-xl overflow-hidden rounded-2xl cursor-pointer shadow-[0_8px_40px_rgba(19,174,235,0.18),0_2px_8px_rgba(15,23,42,0.08)]"
         onClick={!playing ? handlePlay : undefined}
       >
         <video

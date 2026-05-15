@@ -53,11 +53,11 @@ export function CategoriesGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-80px" }}
               transition={{ duration: 0.42, delay: i * 0.08, ease: "easeOut" }}
-              className="group relative rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_4px_12px_rgba(15,23,42,0.04)] hover:shadow-[0_8px_24px_rgba(19,174,235,0.12)] hover:-translate-y-1 transition-all duration-200 ease-out overflow-hidden"
+              className="group relative rounded-2xl border border-slate-200 bg-white p-7 shadow-[0_2px_4px_rgba(15,23,42,0.04),0_8px_24px_rgba(15,23,42,0.06)] hover:shadow-[0_4px_8px_rgba(15,23,42,0.06),0_16px_36px_rgba(19,174,235,0.15)] hover:border-[#13AEEB]/25 hover:-translate-y-1.5 transition-all duration-250 ease-out overflow-hidden"
             >
               <span className="absolute top-0 left-0 h-[2px] bg-[#13AEEB] w-0 group-hover:w-full transition-all duration-300 ease-out" />
               <div className="flex items-center justify-between">
-                <div className="w-14 h-14 rounded-xl bg-[#13AEEB]/8 flex items-center justify-center">
+                <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-[#13AEEB]/15 to-[#50E6FF]/5 flex items-center justify-center ring-1 ring-[#13AEEB]/10 group-hover:ring-[#13AEEB]/20 transition-all duration-200">
                   <cat.icon size={28} className="text-[#13AEEB]" aria-hidden="true" />
                 </div>
                 <span className="eyebrow text-slate-400">{cat.num}</span>

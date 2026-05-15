@@ -37,9 +37,9 @@ export function TrustStrip() {
           {items.map((item) => (
             <div
               key={item.label}
-              className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#13AEEB]/30 hover:shadow-[0_14px_34px_rgba(15,23,42,0.08)]"
+              className="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-[0_2px_4px_rgba(15,23,42,0.04),0_6px_18px_rgba(15,23,42,0.06)] transition-all duration-200 hover:-translate-y-1 hover:border-[#13AEEB]/30 hover:shadow-[0_4px_8px_rgba(15,23,42,0.06),0_16px_36px_rgba(19,174,235,0.12)]"
             >
-              <span className="flex h-12 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-slate-50 px-2 ring-1 ring-slate-200 transition group-hover:scale-105">
+              <span className="flex h-12 w-16 flex-shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-slate-50 to-[#13AEEB]/5 px-2 ring-1 ring-slate-200 group-hover:ring-[#13AEEB]/20 transition-all duration-200 group-hover:scale-105">
                 {item.logo === "cloud-een" ? (
                   <Cloud1Logo className="text-[#13AEEB]" width={58} height={22} />
                 ) : (

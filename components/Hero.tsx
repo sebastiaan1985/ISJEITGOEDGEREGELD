@@ -33,6 +33,15 @@ export function Hero() {
         <div className="absolute inset-x-0 bottom-0 h-2/5 bg-gradient-to-t from-white via-white/85 to-transparent" />
       </div>
 
+      {/* Ambient glow achter headline */}
+      <div
+        className="absolute left-0 top-0 w-[700px] h-[500px] pointer-events-none z-0"
+        style={{
+          background: "radial-gradient(ellipse at 20% 40%, rgba(19,174,235,0.13) 0%, transparent 65%)",
+        }}
+        aria-hidden="true"
+      />
+
       <div className="relative z-10 w-full max-w-7xl mx-auto px-5 md:px-8">
         <div className="max-w-xl text-left text-[#0B1F3A]">
         <motion.div
@@ -41,7 +50,7 @@ export function Hero() {
           transition={{ duration: 0.22, ease: "easeOut" }}
           className="inline-flex"
         >
-          <span className="eyebrow inline-flex items-center px-3 py-1 rounded-full border border-[#13AEEB]/20 bg-white/80 text-[#13AEEB] backdrop-blur-md shadow-sm font-semibold">
+          <span className="eyebrow-glow eyebrow inline-flex items-center px-3 py-1 rounded-full border border-[#13AEEB]/25 bg-white/85 text-[#13AEEB] backdrop-blur-md shadow-[0_2px_12px_rgba(19,174,235,0.12)] font-semibold">
             Gratis · ±8 minuten · Direct inzicht
           </span>
         </motion.div>

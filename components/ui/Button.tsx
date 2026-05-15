@@ -19,12 +19,12 @@ const sizes: Record<"md" | "lg", string> = {
 
 const variants: Record<Variant, string> = {
   primary:
-    "bg-[#13AEEB] text-white shadow-[0_4px_14px_rgba(19,174,235,0.25)] hover:bg-[#0E8FBF] hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(19,174,235,0.35)] active:translate-y-0",
+    "btn-shine bg-[#13AEEB] text-white shadow-[0_4px_14px_rgba(19,174,235,0.3),0_1px_2px_rgba(19,174,235,0.2)] hover:bg-[#0E8FBF] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(19,174,235,0.45),0_2px_6px_rgba(19,174,235,0.25)] active:translate-y-0",
   secondary:
-    "bg-white text-[#13AEEB] border border-[#13AEEB]/30 hover:border-[#13AEEB] hover:bg-[#13AEEB]/5",
+    "bg-white text-[#13AEEB] border border-[#13AEEB]/30 hover:border-[#13AEEB] hover:bg-[#13AEEB]/5 hover:shadow-[0_4px_16px_rgba(19,174,235,0.12)]",
   ghost: "bg-transparent text-slate-700 hover:bg-slate-100",
   white:
-    "bg-white text-[#0B1F3A] hover:-translate-y-0.5 hover:shadow-[0_8px_20px_rgba(0,0,0,0.15)]",
+    "btn-shine bg-white text-[#0B1F3A] shadow-[0_4px_14px_rgba(255,255,255,0.12)] hover:-translate-y-0.5 hover:shadow-[0_8px_28px_rgba(255,255,255,0.2)]",
 };
 
 export const Button = forwardRef<HTMLButtonElement, Props>(function Button(
