@@ -10,6 +10,34 @@ import { INDUSTRIES, M365_BUCKETS, SIZE_BUCKETS } from "@/lib/types";
 export const runtime = "nodejs";
 export const maxDuration = 60;
 
+// ---------------------------------------------------------------------------
+// Rate limiting (Upstash Redis — skipped gracefully when env vars are absent)
+// ---------------------------------------------------------------------------
+async function checkRateLimit(ip: string): Promise<{ allowed: boolean }> {
+  const url = process.env.UPSTASH_REDIS_REST_URL;
+  const token = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (!url || !token) return { allowed: true };
+
+  try {
+    const { Ratelimit } = await import("@upstash/ratelimit");
+    const { Redis } = await import("@upstash/redis");
+    const redis = new Redis({ url, token });
+    // 5 requests per IP per 10 minutes
+    const ratelimit = new Ratelimit({
+      redis,
+      limiter: Ratelimit.slidingWindow(5, "10 m"),
+      prefix: "scan:submit",
+    });
+    const { success } = await ratelimit.limit(ip);
+    return { allowed: success };
+  } catch {
+    return { allowed: true };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Validation schemas
+// ---------------------------------------------------------------------------
 const intakeSchema = z.object({
   firstName: z.string().min(2),
   company: z.string().min(2),
@@ -31,12 +59,25 @@ const bodySchema = z.object({
   }),
 });
 
+// ---------------------------------------------------------------------------
+// Handler
+// ---------------------------------------------------------------------------
 export async function POST(req: Request) {
+  const ip =
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
+    req.headers.get("x-real-ip") ??
+    "unknown";
+
+  const { allowed } = await checkRateLimit(ip);
+  if (!allowed) {
+    return NextResponse.json({ ok: false, error: "rate_limited" }, { status: 429 });
+  }
+
   let payload: z.infer<typeof bodySchema>;
   try {
     const json = await req.json();
     payload = bodySchema.parse(json);
-  } catch (err) {
+  } catch {
     return NextResponse.json({ ok: false, error: "invalid_body" }, { status: 400 });
   }
 
@@ -58,6 +99,9 @@ export async function POST(req: Request) {
   });
 }
 
+// ---------------------------------------------------------------------------
+// Lead storage
+// ---------------------------------------------------------------------------
 async function storeLead(
   payload: z.infer<typeof bodySchema>,
   summary: ReturnType<typeof buildScanSummary>,
@@ -125,6 +169,9 @@ async function storeLead(
   }
 }
 
+// ---------------------------------------------------------------------------
+// Lead notification email
+// ---------------------------------------------------------------------------
 async function sendLeadNotification(
   payload: z.infer<typeof bodySchema>,
   summary: ReturnType<typeof buildScanSummary>,
@@ -161,6 +208,9 @@ async function sendLeadNotification(
   }
 }
 
+// ---------------------------------------------------------------------------
+// Email HTML builder
+// ---------------------------------------------------------------------------
 function buildSalesEmail(
   payload: z.infer<typeof bodySchema>,
   summary: ReturnType<typeof buildScanSummary>,

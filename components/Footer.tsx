@@ -1,5 +1,7 @@
 import { Cloud1Logo } from "./ui/Cloud1Logo";
 
+const CLOUD1_URL = "https://cloud1.nl";
+
 export function Footer() {
   const reviewsUrl = "https://www.google.com/search?q=Cloud1+reviews";
 
@@ -30,36 +32,49 @@ export function Footer() {
           <div>
             <h4 className="text-white font-semibold text-sm">Diensten</h4>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Moderne werkplek</a></li>
-              <li><a href="#" className="hover:text-white">Beveiliging</a></li>
-              <li><a href="#" className="hover:text-white">Connectiviteit</a></li>
-              <li><a href="#" className="hover:text-white">Managed services</a></li>
+              <li><a href={`${CLOUD1_URL}/diensten/moderne-werkplek`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Moderne werkplek</a></li>
+              <li><a href={`${CLOUD1_URL}/diensten/beveiliging`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Beveiliging</a></li>
+              <li><a href={`${CLOUD1_URL}/diensten/connectiviteit`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Connectiviteit</a></li>
+              <li><a href={`${CLOUD1_URL}/diensten/managed-services`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Managed services</a></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-white font-semibold text-sm">Over Cloud1</h4>
+            <h4 className="text-white font-semibold text-sm">Over Cloud ÉÉN</h4>
             <ul className="mt-4 space-y-2 text-sm">
-              <li><a href="#" className="hover:text-white">Onze aanpak</a></li>
-              <li><a href="#" className="hover:text-white">Klantcases</a></li>
-              <li><a href="#" className="hover:text-white">Werken bij</a></li>
-              <li><a href="#" className="hover:text-white">Nieuws</a></li>
+              <li><a href={`${CLOUD1_URL}/over-ons`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Onze aanpak</a></li>
+              <li><a href={`${CLOUD1_URL}/klantcases`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Klantcases</a></li>
+              <li><a href={`${CLOUD1_URL}/werken-bij`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Werken bij</a></li>
+              <li><a href={`${CLOUD1_URL}/nieuws`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Nieuws</a></li>
             </ul>
           </div>
           <div>
             <h4 className="text-white font-semibold text-sm">Contact</h4>
             <ul className="mt-4 space-y-2 text-sm">
-              <li>info@cloud1.nl</li>
-              <li>085-4865555</li>
-              <li className="pt-2"><a href="#" className="hover:text-white">Plan een gesprek</a></li>
+              <li>
+                <a href="mailto:info@cloud1.nl" className="hover:text-white">info@cloud1.nl</a>
+              </li>
+              <li>
+                <a href="tel:+31854865555" className="hover:text-white">085-4865555</a>
+              </li>
+              <li className="pt-2">
+                <a
+                  href={process.env.NEXT_PUBLIC_CALENDLY_URL ?? `${CLOUD1_URL}/contact`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-white"
+                >
+                  Plan een gesprek
+                </a>
+              </li>
             </ul>
           </div>
         </div>
         <div className="mt-12 pt-6 border-t border-white/10 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-xs">
-          <span>© {new Date().getFullYear()} Cloud1. Alle rechten voorbehouden.</span>
+          <span>© {new Date().getFullYear()} Cloud ÉÉN. Alle rechten voorbehouden.</span>
           <div className="flex items-center gap-5">
-            <a href="#" className="hover:text-white">Privacy</a>
-            <a href="#" className="hover:text-white">Voorwaarden</a>
-            <a href="#" className="hover:text-white">Cookies</a>
+            <a href="/privacy" className="hover:text-white">Privacy</a>
+            <a href={`${CLOUD1_URL}/algemene-voorwaarden`} target="_blank" rel="noopener noreferrer" className="hover:text-white">Voorwaarden</a>
+            <a href="/privacy#cookies" className="hover:text-white">Cookies</a>
           </div>
         </div>
       </div>
