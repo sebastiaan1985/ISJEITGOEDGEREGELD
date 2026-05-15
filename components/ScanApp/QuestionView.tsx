@@ -3,11 +3,11 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Button } from "../ui/Button";
-import { getQuestion, CATEGORIES } from "@/lib/questions";
+import { getQuestion, CATEGORIES, QUESTIONS_PER_CATEGORY } from "@/lib/questions";
 
 type Props = {
   category: 0 | 1 | 2 | 3;
-  question: 0 | 1 | 2 | 3 | 4 | 5;
+  question: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   selected: number | null;
   onSelect: (score: number) => void;
   onNext: () => void;
@@ -58,7 +58,7 @@ export function QuestionView({
       transition={{ duration: 0.22, ease: "easeOut" }}
     >
       <p className="eyebrow">
-        Categorie {category + 1} van 4 · Vraag {question + 1} van 6 · {CATEGORIES[category]}
+        Categorie {category + 1} van 4 · Vraag {question + 1} van {QUESTIONS_PER_CATEGORY} · {CATEGORIES[category]}
       </p>
       <h3 className="mt-3 text-xl md:text-[1.4rem] font-semibold text-slate-900 leading-snug">
         {q.text}

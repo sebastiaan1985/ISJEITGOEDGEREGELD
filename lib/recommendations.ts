@@ -23,6 +23,10 @@ export const TIPS: Record<string, string> = {
   "4.4": "IT-routekaart voor 2–3 jaar, kwartaalsgewijs bijgewerkt — IT volgt de business, niet andersom.",
   "4.5": "Aantoonbare compliance en securitydocumentatie — voorkomt lastige verzekering- of klantgesprekken.",
   "4.6": "Inzicht in IT-kosten per medewerker plus benchmark — voorkomt verspilling en discussie.",
+  "1.7": "Shadow IT in kaart brengen en beheersen — zorg dat bedrijfsdata alleen in goedgekeurde tools staat.",
+  "2.7": "Security awareness: train medewerkers regelmatig en test met gesimuleerde phishing-aanvallen.",
+  "3.7": "Zero-trust toegang — controleer bij elke login de gebruiker, het apparaat én de locatie.",
+  "4.7": "AVG-compliance: verwerkingsregister, verwerkersovereenkomsten en jaarlijkse review.",
 };
 
 export function pickTips(answers: Record<string, number>, category: 0 | 1 | 2 | 3): string[] {
@@ -53,6 +57,10 @@ export const INSIGHTS: Record<string, string> = {
   "4.3": "Lokale servers zijn relatief duur in beheer en kwetsbaarder voor ransomware-uitbraken. Een volledige cloud-migratie is veiliger.",
   "4.5": "Klanten en verzekeraars vragen steeds vaker om aantoonbare securitymaatregelen, niet alleen om goede intenties.",
   "4.6": "De gemiddelde IT-kosten per medewerker liggen tussen €100 en €250 per maand. Weet je waar jij zit?",
+  "1.7": "Gemiddeld 80% van medewerkers gebruikt minstens één niet-goedgekeurd cloudprogramma voor werk — vaak zonder dat IT dat weet.",
+  "2.7": "Gesimuleerde phishing-tests verlagen het klikpercentage gemiddeld van 33% naar onder de 5% na 12 maanden training.",
+  "3.7": "Zero-trust is de standaard in moderne beveiliging: VPN alleen is niet bestand tegen gestolen inloggegevens.",
+  "4.7": "De Autoriteit Persoonsgegevens legt steeds meer boetes op aan het MKB — een actueel verwerkingsregister is het begin van compliance.",
 };
 
 export function pickInsights(answers: Record<string, number>, category: 0 | 1 | 2 | 3): string[] {

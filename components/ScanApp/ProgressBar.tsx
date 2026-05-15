@@ -1,11 +1,11 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { CATEGORY_SHORT } from "@/lib/questions";
+import { CATEGORY_SHORT, QUESTIONS_PER_CATEGORY } from "@/lib/questions";
 
 type Props = {
   currentCategory: 0 | 1 | 2 | 3;
-  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5;
+  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   finished: boolean;
 };
 
@@ -18,7 +18,7 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
           const isActive = !finished && i === currentCategory;
           const isFuture = !finished && i > currentCategory;
           const progressWithin = isActive
-            ? ((currentQuestion + 1) / 6) * 100
+            ? ((currentQuestion + 1) / QUESTIONS_PER_CATEGORY) * 100
             : isCompleted
               ? 100
               : 0;

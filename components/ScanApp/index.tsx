@@ -17,7 +17,7 @@ type State = {
   phase: ScanPhase;
   intake: IntakeData | null;
   currentCategory: 0 | 1 | 2 | 3;
-  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5;
+  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   answers: (number | null)[];
   scores: Scores | null;
 };
@@ -73,13 +73,13 @@ function reducer(state: State, action: Action): State {
         return {
           ...state,
           currentCategory: (state.currentCategory - 1) as State["currentCategory"],
-          currentQuestion: 5,
+          currentQuestion: (QUESTIONS_PER_CATEGORY - 1) as State["currentQuestion"],
         };
       }
       return state;
     }
     case "NEXT": {
-      const lastQuestionInCat = state.currentQuestion === 5;
+      const lastQuestionInCat = state.currentQuestion === QUESTIONS_PER_CATEGORY - 1;
       const lastCategory = state.currentCategory === 3;
       if (lastQuestionInCat && lastCategory) {
         const perCategory: number[] = [];

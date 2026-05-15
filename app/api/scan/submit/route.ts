@@ -52,7 +52,7 @@ const bodySchema = z.object({
   scanType: z.literal("it-health").default("it-health"),
   intent: z.enum(["lead-capture", "send-report"]).default("send-report"),
   intake: intakeSchema,
-  answers: z.array(z.number().min(0).max(100)).length(24),
+  answers: z.array(z.number().min(0).max(100)).length(28),
   scores: z.object({
     total: z.number().min(0).max(100),
     perCategory: z.tuple([z.number(), z.number(), z.number(), z.number()]),
@@ -84,11 +84,15 @@ export async function POST(req: Request) {
   const leadType = classify(payload.intake);
   const summary = buildScanSummary(payload.answers, payload.scores);
   const storage = await storeLead(payload, summary, leadType);
-  const notification = await sendLeadNotification(payload, summary, leadType, storage.leadId);
+  const [notification, customerMail] = await Promise.all([
+    sendLeadNotification(payload, summary, leadType, storage.leadId),
+    sendCustomerReport(payload, summary),
+  ]);
 
   return NextResponse.json({
     ok: true,
     mailSent: notification.sent,
+    customerMailSent: customerMail.sent,
     leadType,
     stored: storage.stored,
     leadId: storage.leadId,
@@ -262,6 +266,88 @@ function buildSalesEmail(
       ${escapeHtml(summary.packageAdvice.summary)}</p>
     </div>
   `;
+}
+
+// ---------------------------------------------------------------------------
+// Customer report email (PDF to the person who completed the scan)
+// ---------------------------------------------------------------------------
+async function sendCustomerReport(
+  payload: z.infer<typeof bodySchema>,
+  summary: ReturnType<typeof buildScanSummary>,
+): Promise<{ sent: boolean; error?: string }> {
+  const apiKey = process.env.RESEND_API_KEY;
+  const fromAddress = process.env.MAIL_FROM || "Cloud ÉÉN IT-Scan <onboarding@resend.dev>";
+
+  if (!apiKey) return { sent: false, error: "mail_not_configured" };
+
+  try {
+    const resend = new Resend(apiKey);
+    const pdfBuffer = await renderToBuffer(
+      ReportDocument({ intake: payload.intake, answers: payload.answers, scores: payload.scores }),
+    );
+    const filename = `Cloud-EEN-IT-Scan-${payload.intake.company.replace(/[^a-z0-9]/gi, "-")}.pdf`;
+    const calendlyUrl = process.env.NEXT_PUBLIC_CALENDLY_URL ?? "https://calendly.com/cloud1/scan-bespreking";
+
+    const topHtml = summary.topPriorities
+      .slice(0, 3)
+      .map(
+        (item, i) => `
+        <tr>
+          <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0;vertical-align:top;width:24px;font-weight:700;color:#13AEEB">${i + 1}</td>
+          <td style="padding:10px 12px;border-bottom:1px solid #e2e8f0">
+            <strong style="color:#0f172a">${escapeHtml(item.question)}</strong><br/>
+            <span style="color:#64748b;font-size:13px">${escapeHtml(item.betterSetup)}</span>
+          </td>
+        </tr>`,
+      )
+      .join("");
+
+    const html = `
+      <div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#0f172a;line-height:1.6;max-width:600px;margin:0 auto">
+        <div style="background:#0B1F3A;padding:28px 32px;border-radius:12px 12px 0 0">
+          <span style="color:#13AEEB;font-size:20px;font-weight:700">Cloud ÉÉN IT-Scan</span>
+        </div>
+        <div style="background:#f8fafc;padding:28px 32px;border:1px solid #e2e8f0;border-top:none;border-radius:0 0 12px 12px">
+          <h2 style="margin:0 0 8px;color:#0B1F3A">Hoi ${escapeHtml(payload.intake.firstName)}, hier is jouw IT-Scan rapport</h2>
+          <p style="color:#475569;margin:0 0 20px">Je PDF-rapport staat als bijlage bij deze mail. Hieronder de drie punten die het meeste aandacht verdienen.</p>
+
+          <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin-bottom:24px">
+            <p style="margin:0 0 4px;font-size:13px;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.05em">Totaalscore</p>
+            <span style="font-size:40px;font-weight:800;color:#0B1F3A">${payload.scores.total}</span>
+            <span style="font-size:18px;color:#94a3b8"> / 100</span>
+          </div>
+
+          <h3 style="margin:0 0 12px;color:#0B1F3A">Top 3 verbeterpunten</h3>
+          <table style="width:100%;border-collapse:collapse;border:1px solid #e2e8f0;border-radius:8px;overflow:hidden">
+            <tbody>${topHtml}</tbody>
+          </table>
+
+          <div style="background:#0B1F3A;border-radius:10px;padding:24px 28px;margin-top:28px;text-align:center">
+            <p style="color:#fff;font-size:16px;font-weight:600;margin:0 0 8px">Wil je hier samen doorheen?</p>
+            <p style="color:rgba(255,255,255,.7);font-size:14px;margin:0 0 20px">Plan een vrijblijvend gesprek van 30 minuten. Geen verkooppraat, gewoon samen kijken waar de grootste impact zit.</p>
+            <a href="${escapeHtml(calendlyUrl)}" style="display:inline-block;background:#13AEEB;color:#fff;font-weight:700;font-size:15px;padding:12px 28px;border-radius:8px;text-decoration:none">Plan een gesprek →</a>
+          </div>
+
+          <p style="color:#94a3b8;font-size:12px;margin:24px 0 0;text-align:center">
+            Cloud ÉÉN · info@cloud1.nl · 085-4865555<br/>
+            <a href="https://cloud1.nl/privacy" style="color:#94a3b8">Privacyverklaring</a>
+          </p>
+        </div>
+      </div>`;
+
+    await resend.emails.send({
+      from: fromAddress,
+      to: payload.intake.email,
+      subject: `Je Cloud ÉÉN IT-Scan rapport — score ${payload.scores.total}/100`,
+      html,
+      attachments: [{ filename, content: pdfBuffer.toString("base64") }],
+    });
+
+    return { sent: true };
+  } catch (err) {
+    console.error("Customer report email failed", err);
+    return { sent: false, error: "customer_mail_failed" };
+  }
 }
 
 function escapeHtml(value: string): string {

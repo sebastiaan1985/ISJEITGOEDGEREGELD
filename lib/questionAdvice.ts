@@ -152,6 +152,30 @@ export const QUESTION_ADVICE: Record<string, QuestionAdvice> = {
     cloud1Fit: "Cloud ÉÉN kan helpen met voorspelbare werkplekkosten en licentieoptimalisatie.",
     priority: "laag",
   },
+  "1.7": {
+    consequence: "Shadow IT brengt onzichtbare risico's mee: data buiten de controle van het bedrijf, lekken en AVG-overtredingen.",
+    betterSetup: "Stel een lijst op met goedgekeurde tools, communiceer die actief en blokkeer of signaleer afwijkingen.",
+    cloud1Fit: "Cloud ÉÉN kan helpen met Microsoft 365-beleidsregels die ongecontroleerd gebruik van externe cloudopslag beperken.",
+    priority: "hoog",
+  },
+  "2.7": {
+    consequence: "De mens is de zwakste schakel: de meeste cyberincidenten beginnen met een medewerker die ergens op klikt.",
+    betterSetup: "Combineer bewustwordingstraining met periodieke gesimuleerde phishing-aanvallen en meet de voortgang.",
+    cloud1Fit: "Cloud ÉÉN kan Microsoft Defender-simulaties en security-awareness als onderdeel van een beveiligd werkplek inrichten.",
+    priority: "hoog",
+  },
+  "3.7": {
+    consequence: "Onveilige externe toegang is een veelgebruikte aanvalsvector. VPN alleen is niet meer genoeg in moderne dreigingslandschappen.",
+    betterSetup: "Implementeer een zero-trust aanpak waarbij elke toegangspoging continu wordt beoordeeld op risico.",
+    cloud1Fit: "Cloud ÉÉN Werkplek Premium past bij Conditional Access en zero-trust via Microsoft Entra ID.",
+    priority: "hoog",
+  },
+  "4.7": {
+    consequence: "Een ontbrekend verwerkingsregister of AVG-beleid kan leiden tot boetes tot €20 miljoen of 4% van de jaaromzet.",
+    betterSetup: "Maak een verwerkingsregister, sluit verwerkersovereenkomsten en review jaarlijks of alles nog klopt.",
+    cloud1Fit: "Cloud ÉÉN kan helpen met AVG-documentatie, verwerkersovereenkomsten voor Microsoft-diensten en privacyadvies.",
+    priority: "hoog",
+  },
 };
 
 export function getQuestionAdvice(questionId: string): QuestionAdvice {

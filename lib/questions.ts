@@ -7,7 +7,7 @@ export type AnswerOption = {
 export type Question = {
   id: string;
   category: 0 | 1 | 2 | 3;
-  index: 0 | 1 | 2 | 3 | 4 | 5;
+  index: 0 | 1 | 2 | 3 | 4 | 5 | 6;
   text: string;
   scenario?: string;
   options: [AnswerOption, AnswerOption, AnswerOption, AnswerOption];
@@ -181,6 +181,21 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
+  // Vraag 2.7 — Security awareness
+  {
+    id: "2.7",
+    category: 1,
+    index: 6,
+    text: "Hoe bewust zijn medewerkers van dreigingen zoals phishing en social engineering?",
+    scenario: "Een medewerker ontvangt een nep-factuur van de 'directeur'. Herkent hij dat?",
+    options: [
+      opt("A", "We verwachten dat medewerkers dat zelf wel inschatten", 0),
+      opt("B", "Er is af en toe een interne mail of herinnering over veilig werken", 33),
+      opt("C", "Medewerkers krijgen minimaal één keer per jaar een bewustwordingstraining", 67),
+      opt("D", "Continue awareness: trainingen, gesimuleerde phishing-tests én meetbare voortgang", 100),
+    ],
+  },
+
   // Categorie 3 — Connectiviteit & Telefonie
   {
     id: "3.1",
@@ -254,6 +269,35 @@ export const QUESTIONS: Question[] = [
       opt("B", "Sommige collega's experimenteren op eigen initiatief met ChatGPT of vergelijkbare tools", 33),
       opt("C", "We gebruiken AI-tools, maar zonder duidelijke afspraken of richtlijnen", 67),
       opt("D", "AI-tools zijn bewust uitgerold, met richtlijnen, training en afstemming op onze werkwijze", 100),
+    ],
+  },
+
+  // Vraag 1.7 — Shadow IT
+  {
+    id: "1.7",
+    category: 0,
+    index: 6,
+    text: "Weten jullie welke apps en cloudtools medewerkers gebruiken voor hun werk?",
+    scenario: "Een medewerker deelt klantdata via een persoonlijk Dropbox-account. Weet IT dat?",
+    options: [
+      opt("A", "We hebben geen overzicht — medewerkers kiezen en installeren zelf", 0),
+      opt("B", "We zijn er globaal van op de hoogte, maar er is geen beleid", 33),
+      opt("C", "Er zijn richtlijnen over welke tools zijn goedgekeurd", 67),
+      opt("D", "Niet-goedgekeurde apps worden gesignaleerd of geblokkeerd, met een formele goedkeuringslijst", 100),
+    ],
+  },
+
+  // Vraag 3.7 — Remote access / Zero Trust
+  {
+    id: "3.7",
+    category: 2,
+    index: 6,
+    text: "Hoe zorgen jullie dat medewerkers van buiten kantoor veilig bij bedrijfssystemen kunnen?",
+    options: [
+      opt("A", "Via een directe verbinding — geen extra beveiligingslaag", 0),
+      opt("B", "Via een VPN-verbinding", 33),
+      opt("C", "Via MFA en beveiligde cloudtoegang zonder VPN", 67),
+      opt("D", "Via zero-trust: elke toegang wordt gecontroleerd op gebruiker, apparaat én locatie", 100),
     ],
   },
 
@@ -331,9 +375,24 @@ export const QUESTIONS: Question[] = [
       opt("D", "Inzicht per medewerker plus benchmark en jaarlijkse optimalisatie", 100),
     ],
   },
+
+  // Vraag 4.7 — AVG/GDPR compliance
+  {
+    id: "4.7",
+    category: 3,
+    index: 6,
+    text: "Hoe aantoonbaar zijn jullie processen rondom privacy en gegevensbescherming (AVG)?",
+    scenario: "Een klant vraagt je aan te tonen hoe jullie met zijn persoonsgegevens omgaan.",
+    options: [
+      opt("A", "We weten dat het speelt, maar hebben er weinig concreets voor geregeld", 0),
+      opt("B", "We hebben een privacybeleid, maar een formeel verwerkingsregister ontbreekt", 33),
+      opt("C", "We hebben een verwerkingsregister en duidelijke afspraken met leveranciers", 67),
+      opt("D", "Volledig AVG-compliant: register, beleid, verwerkersovereenkomsten én jaarlijkse review", 100),
+    ],
+  },
 ];
 
-export const QUESTIONS_PER_CATEGORY = 6;
+export const QUESTIONS_PER_CATEGORY = 7;
 export const TOTAL_QUESTIONS = QUESTIONS.length;
 
 export function getQuestion(cat: number, idx: number): Question {
