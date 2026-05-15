@@ -12,6 +12,8 @@ export type AnswerAdvice = {
   consequence: string;
   betterSetup: string;
   cloud1Fit: string;
+  risk: string;
+  firstStep: string;
 };
 
 export type PackageAdvice = {
@@ -52,6 +54,8 @@ export function buildScanSummary(answers: number[], scores: Scores): ScanSummary
       consequence: advice.consequence,
       betterSetup: advice.betterSetup,
       cloud1Fit: advice.cloud1Fit,
+      risk: advice.risk,
+      firstStep: advice.firstStep,
     };
   });
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
-import { Calendar, Loader2, Building2, Download, Flag, ShieldCheck } from "lucide-react";
+import { Calendar, Loader2, Building2, Download, Flag, ShieldCheck, AlertTriangle, ArrowRight } from "lucide-react";
 import { Button } from "../ui/Button";
 import { Cloud1Logo } from "../ui/Cloud1Logo";
 import { ScoreCircle } from "./ScoreCircle";
@@ -180,26 +180,34 @@ export function ResultView({ scanType = "it-health", intake, answers, scores }: 
                 Rapport wordt gedownload
               </div>
             </div>
-            <div className="mt-5 grid grid-cols-1 gap-3">
+            <div className="mt-5 grid grid-cols-1 gap-4">
               {summary.topPriorities.map((item, index) => (
                 <div
                   key={item.id}
-                  className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+                  className="rounded-xl border border-slate-200 bg-white overflow-hidden"
                 >
-                  <div className="flex items-start gap-3">
-                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white text-sm font-bold text-[#13AEEB] shadow-sm">
+                  <div className="flex items-start gap-3 p-4 pb-3">
+                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-[#13AEEB]/10 text-sm font-bold text-[#13AEEB]">
                       {index + 1}
                     </span>
                     <div className="min-w-0">
                       <div className="flex flex-wrap items-center gap-2">
                         <p className="text-sm font-semibold text-slate-900">{item.question}</p>
-                        <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-500">
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs font-medium text-slate-500">
                           {item.category}
                         </span>
                       </div>
-                      <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
-                        {item.betterSetup}
-                      </p>
+                    </div>
+                  </div>
+                  <div className="mx-4 rounded-lg bg-red-50 border border-red-100 p-3 flex items-start gap-2">
+                    <AlertTriangle size={14} className="flex-shrink-0 text-red-500 mt-0.5" />
+                    <p className="text-xs text-red-700 leading-relaxed">{item.risk}</p>
+                  </div>
+                  <div className="mx-4 mt-2 mb-4 rounded-lg bg-emerald-50 border border-emerald-100 p-3 flex items-start gap-2">
+                    <ArrowRight size={14} className="flex-shrink-0 text-emerald-600 mt-0.5" />
+                    <div>
+                      <p className="text-xs font-semibold text-emerald-800 mb-0.5">Eerste stap</p>
+                      <p className="text-xs text-emerald-700 leading-relaxed">{item.firstStep}</p>
                     </div>
                   </div>
                 </div>

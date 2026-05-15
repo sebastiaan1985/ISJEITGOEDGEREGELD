@@ -40,7 +40,7 @@ export function CategoriesGrid() {
             Vier kerngebieden van moderne IT
           </h2>
           <p className="mt-4 text-slate-600 leading-relaxed">
-            We doorlopen samen vier onderdelen. Per onderdeel beantwoord je zes korte
+            We doorlopen samen vier onderdelen. Per onderdeel beantwoord je acht korte
             meerkeuzevragen — geen technische kennis nodig.
           </p>
         </div>
@@ -67,7 +67,7 @@ export function CategoriesGrid() {
               </h3>
               <p className="mt-2 text-sm text-slate-600 leading-relaxed">{cat.body}</p>
               <p className="mt-5 pt-4 border-t border-slate-100 text-xs font-medium text-slate-500">
-                6 vragen
+                8 vragen
               </p>
             </motion.article>
           ))}

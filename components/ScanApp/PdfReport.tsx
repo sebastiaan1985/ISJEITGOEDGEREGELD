@@ -59,13 +59,40 @@ const styles = StyleSheet.create({
   cardTitle: { fontSize: 10.5, fontWeight: "bold", color: "#0f172a" },
   cardScore: { marginTop: 4, fontSize: 10, fontWeight: "bold", color: "#13AEEB" },
   priorityCard: {
-    marginBottom: 8,
+    marginBottom: 10,
     padding: 11,
-    backgroundColor: "#FFFBEB",
+    backgroundColor: "#FFFFFF",
     borderRadius: 8,
     borderWidth: 1,
-    borderColor: "#FDE68A",
+    borderColor: "#E2E8F0",
   },
+  riskBox: {
+    marginTop: 6,
+    padding: 8,
+    backgroundColor: "#FEF2F2",
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#FECACA",
+  },
+  riskLabel: { fontSize: 8, fontWeight: "bold", color: "#991B1B", marginBottom: 2 },
+  riskText: { fontSize: 9, color: "#7F1D1D", lineHeight: 1.4 },
+  stepBox: {
+    marginTop: 5,
+    padding: 8,
+    backgroundColor: "#F0FDF4",
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#BBF7D0",
+  },
+  stepLabel: { fontSize: 8, fontWeight: "bold", color: "#166534", marginBottom: 2 },
+  stepText: { fontSize: 9, color: "#14532D", lineHeight: 1.4 },
+  benchmarkRow: {
+    marginTop: 8,
+    flexDirection: "row",
+    gap: 6,
+  },
+  benchmarkText: { fontSize: 9, color: "#64748B" },
+  benchmarkDiff: { fontSize: 9, fontWeight: "bold" },
   questionCard: {
     marginBottom: 8,
     padding: 11,
@@ -148,10 +175,20 @@ export const PdfReport = ({ intake, answers, scores, industryTip }: Props) => {
           <View style={styles.introBox}>
             <Text style={styles.cardTitle}>Wat betekent dit?</Text>
             <Text style={styles.paragraph}>
-              De scan laat zien waar jullie IT-omgeving al stevig staat en waar verbetering de
-              meeste waarde kan opleveren. De topprioriteiten hieronder zijn bedoeld als startpunt
-              voor een concreet gesprek.
+              Dit rapport toont waar aandacht nodig is en wat je concreet kunt doen.
+              De eerste stappen bij elke prioriteit kun je zelf oppakken — gratis en direct.
             </Text>
+            <View style={styles.benchmarkRow}>
+              <Text style={styles.benchmarkText}>MKB-gemiddelde: 54/100 —</Text>
+              <Text style={{
+                ...styles.benchmarkDiff,
+                color: scores.total >= 54 ? "#059669" : "#DC2626",
+              }}>
+                {scores.total >= 54
+                  ? `jij scoort +${scores.total - 54} boven gemiddeld`
+                  : `jij scoort ${scores.total - 54} onder gemiddeld`}
+              </Text>
+            </View>
             {industryTip && (
               <Text style={[styles.smallText, { marginTop: 8 }]}>
                 {industryTip.headline}: {industryTip.tip}
@@ -171,16 +208,21 @@ export const PdfReport = ({ intake, answers, scores, industryTip }: Props) => {
           ))}
         </View>
 
-        <Text style={styles.sectionTitle}>Top 5 prioriteiten</Text>
+        <Text style={styles.sectionTitle}>Top 5 — dit vraagt als eerste aandacht</Text>
         {summary.topPriorities.map((item, index) => (
           <View key={item.id} style={styles.priorityCard} wrap={false}>
             <Text style={styles.label}>
-              {index + 1}. {item.category} - score {item.score}/100
+              {index + 1}. {item.category} — score {item.score}/100
             </Text>
             <Text style={styles.questionTitle}>{item.question}</Text>
-            <Text style={styles.adviceLine}>Gevolg: {item.consequence}</Text>
-            <Text style={styles.adviceLine}>Beter inrichten: {item.betterSetup}</Text>
-            <Text style={styles.adviceLine}>Cloud ÉÉN-koppeling: {item.cloud1Fit}</Text>
+            <View style={styles.riskBox}>
+              <Text style={styles.riskLabel}>Wat kan er misgaan?</Text>
+              <Text style={styles.riskText}>{item.risk}</Text>
+            </View>
+            <View style={styles.stepBox}>
+              <Text style={styles.stepLabel}>Eerste stap die je zelf kunt zetten</Text>
+              <Text style={styles.stepText}>{item.firstStep}</Text>
+            </View>
           </View>
         ))}
 
@@ -217,13 +259,20 @@ export const PdfReport = ({ intake, answers, scores, industryTip }: Props) => {
             wrap={false}
           >
             <Text style={styles.label}>
-              {item.id} - {item.category} - score {item.score}/100
+              {item.id} — {item.category} — score {item.score}/100
             </Text>
             <Text style={styles.questionTitle}>{item.question}</Text>
-            <Text style={styles.answer}>Gekozen situatie: {item.selectedAnswer}</Text>
-            <Text style={styles.adviceLine}>Gevolg: {item.consequence}</Text>
-            <Text style={styles.adviceLine}>Beter inrichten: {item.betterSetup}</Text>
-            <Text style={styles.adviceLine}>Cloud ÉÉN-koppeling: {item.cloud1Fit}</Text>
+            <Text style={styles.answer}>Jouw situatie: {item.selectedAnswer}</Text>
+            {item.score < 100 && (
+              <>
+                <Text style={[styles.adviceLine, { marginTop: 5, color: "#7F1D1D" }]}>
+                  Risico: {item.risk}
+                </Text>
+                <Text style={[styles.adviceLine, { color: "#166534" }]}>
+                  Eerste stap: {item.firstStep}
+                </Text>
+              </>
+            )}
           </View>
         ))}
 

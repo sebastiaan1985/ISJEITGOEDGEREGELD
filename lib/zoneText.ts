@@ -1,19 +1,19 @@
 import type { Zone } from "./types";
 
 export const ZONE_LABEL: Record<Zone, string> = {
-  red: "Belangrijke aandachtspunten",
-  orange: "Goede basis, gaten op te vullen",
+  red: "Direct aandacht vereist",
+  orange: "Verbeterpotentieel aanwezig",
   green: "Sterke basis",
 };
 
 export const ZONE_INTRO: Record<Zone, string> = {
-  red: "Hier liggen de grootste kansen. Vaak gaat het om enkele gerichte stappen die snel grote impact maken.",
-  orange: "Je hebt een werkbare basis. Een paar gerichte verbeteringen tillen dit naar volwassen niveau.",
-  green: "Je doet het goed. We zien nog ruimte voor fine-tuning en kostenefficiëntie.",
+  red: "Dit onderdeel vraagt direct actie. De risico's hier zijn concreet en vergroot de kans op uitval, dataverlies of beveiligingsincidenten.",
+  orange: "Er is een werkbare basis, maar er zijn gaten die — als ze niet worden gedicht — op het verkeerde moment een probleem kunnen worden.",
+  green: "Dit staat goed. Blijf het periodiek toetsen, want technologie en dreigingen veranderen ook als u stilstaat.",
 };
 
 export const TOTAL_SCORE_HEADLINE: Record<Zone, string> = {
-  red: "Verbeterpotentieel hoog",
-  orange: "Belangrijke stappen mogelijk",
-  green: "Sterke basis — fine-tuning mogelijk",
+  red: "Meerdere risico's vragen actie",
+  orange: "Goede basis, gericht verbeteren loont",
+  green: "Sterke basis — blijf toetsen",
 };

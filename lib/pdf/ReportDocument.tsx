@@ -25,13 +25,41 @@ const styles = StyleSheet.create({
     backgroundColor: "#F4F7FB",
     padding: 18,
     borderRadius: 10,
-    marginBottom: 22,
+    marginBottom: 10,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
   },
   totalScore: { fontSize: 44, fontWeight: 700 },
   totalLabel: { fontSize: 10, color: "#475569", marginTop: 4 },
+  benchmarkRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 20,
+    paddingHorizontal: 4,
+  },
+  benchmarkText: { fontSize: 9, color: "#64748B" },
+  benchmarkDiff: { fontSize: 9, fontWeight: 700 },
+  riskBox: {
+    backgroundColor: "#FEF2F2",
+    border: "1pt solid #FECACA",
+    borderRadius: 6,
+    padding: 8,
+    marginTop: 5,
+    marginBottom: 4,
+  },
+  riskLabel: { fontSize: 8, fontWeight: 700, color: "#991B1B", marginBottom: 2 },
+  riskText: { fontSize: 9, color: "#7F1D1D", lineHeight: 1.4 },
+  stepBox: {
+    backgroundColor: "#F0FDF4",
+    border: "1pt solid #BBF7D0",
+    borderRadius: 6,
+    padding: 8,
+    marginBottom: 2,
+  },
+  stepLabel: { fontSize: 8, fontWeight: 700, color: "#166534", marginBottom: 2 },
+  stepText: { fontSize: 9, color: "#14532D", lineHeight: 1.4 },
   catCard: {
     border: "1pt solid #E2E8F0",
     borderRadius: 8,
@@ -141,11 +169,11 @@ export function ReportDocument({ intake, answers, scores }: Props) {
           </Text>
         </View>
 
-        <Text style={styles.h1}>Jouw IT in vogelvlucht</Text>
+        <Text style={styles.h1}>Jouw IT-rapport</Text>
         <Text style={styles.intro}>
-          Beste {intake.firstName}, dit is jouw persoonlijke IT-Scan rapport. Op basis van 32
-          vragen kijken we naar werkplek, beveiliging, connectiviteit en beheer — inclusief onderhoud,
-          back-up en serviceniveaus.
+          Beste {intake.firstName}, op basis van 32 vragen over werkplek, beveiliging,
+          connectiviteit en beheer krijg je hier een eerlijk beeld van waar je staat — en
+          wat je concreet kunt doen.
         </Text>
 
         <View style={styles.totalBox}>
@@ -166,6 +194,19 @@ export function ReportDocument({ intake, answers, scores }: Props) {
           </View>
         </View>
 
+        {/* Benchmark */}
+        <View style={styles.benchmarkRow}>
+          <Text style={styles.benchmarkText}>MKB-gemiddelde: 54/100  ·  </Text>
+          <Text style={{
+            ...styles.benchmarkDiff,
+            color: scores.total >= 54 ? "#059669" : "#DC2626",
+          }}>
+            {scores.total >= 54
+              ? `+${scores.total - 54} boven gemiddeld`
+              : `${scores.total - 54} onder gemiddeld`}
+          </Text>
+        </View>
+
         {isPerfect ? (
           <View style={styles.perfectBox}>
             <Text style={styles.perfectTitle}>Alles staat op groen — uitzonderlijk resultaat!</Text>
@@ -177,16 +218,23 @@ export function ReportDocument({ intake, answers, scores }: Props) {
           </View>
         ) : (
           <>
-            <Text style={styles.sectionTitle}>Topprioriteiten</Text>
+            <Text style={styles.sectionTitle}>Jouw top 5 — dit vraagt als eerste aandacht</Text>
             {summary.topPriorities.map((item, index) => (
               <View key={item.id} style={styles.catCard} wrap={false}>
                 <Text style={styles.catTitle}>
-                  {index + 1}. {item.category} · {item.score} / 100
+                  {index + 1}. {item.question}
                 </Text>
-                <Text style={styles.zoneIntro}>{item.question}</Text>
-                <Text style={styles.tip}>Gevolg: {item.consequence}</Text>
-                <Text style={styles.tip}>Beter inrichten: {item.betterSetup}</Text>
-                <Text style={styles.tip}>Cloud ÉÉN-koppeling: {item.cloud1Fit}</Text>
+                <Text style={{ fontSize: 9, color: "#64748B", marginTop: 2, marginBottom: 6 }}>
+                  {item.category} · score {item.score}/100
+                </Text>
+                <View style={styles.riskBox}>
+                  <Text style={styles.riskLabel}>Wat kan er misgaan?</Text>
+                  <Text style={styles.riskText}>{item.risk}</Text>
+                </View>
+                <View style={styles.stepBox}>
+                  <Text style={styles.stepLabel}>Eerste stap die je zelf kunt zetten</Text>
+                  <Text style={styles.stepText}>{item.firstStep}</Text>
+                </View>
               </View>
             ))}
           </>
@@ -217,12 +265,12 @@ export function ReportDocument({ intake, answers, scores }: Props) {
           );
         })}
 
-        <Text style={styles.sectionTitle}>Wat nu?</Text>
+        <Text style={styles.sectionTitle}>Wil je dit samen doorlopen?</Text>
         <Text style={{ ...styles.intro, marginBottom: 6 }}>
-          Dit rapport is een gespreksstartdocument. Onze specialisten kijken graag samen met jou
-          waar de grootste impact zit — vrijblijvend en zonder verkooppraat.
+          De stappen hierboven kun je zelf oppakken. Als je wilt dat iemand meedenkt — zonder
+          verkooppraat — dan plannen onze specialisten graag een kort gesprek in.
         </Text>
-        <Text style={styles.meta}>Cloud ÉÉN · info@cloud1.nl · cloud1.nl</Text>
+        <Text style={styles.meta}>Cloud ÉÉN · info@cloud1.nl · 085-4865555 · cloud1.nl</Text>
 
         <View style={styles.footer} fixed>
           <Text>Cloud ÉÉN IT-Scan</Text>
