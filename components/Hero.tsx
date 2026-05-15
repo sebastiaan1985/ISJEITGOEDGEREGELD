@@ -7,9 +7,9 @@ import { Button } from "./ui/Button";
 
 const trustItems = [
   { icon: ShieldCheck, label: "Geen technische kennis nodig" },
-  { icon: Clock, label: "5 minuten" },
-  { icon: FileText, label: "Persoonlijk rapport" },
-  { icon: CheckCircle2, label: "Vrijblijvend" },
+  { icon: Clock, label: "±8 minuten" },
+  { icon: FileText, label: "Persoonlijk PDF-rapport" },
+  { icon: CheckCircle2, label: "Gratis & vrijblijvend" },
 ];
 
 export function Hero() {
@@ -42,7 +42,7 @@ export function Hero() {
           className="inline-flex"
         >
           <span className="eyebrow inline-flex items-center px-3 py-1 rounded-full border border-[#13AEEB]/20 bg-white/80 text-[#13AEEB] backdrop-blur-md shadow-sm font-semibold">
-            Gratis · 5 minuten · Direct inzicht
+            Gratis · ±8 minuten · Direct inzicht
           </span>
         </motion.div>
 
@@ -61,8 +61,8 @@ export function Hero() {
           transition={{ duration: 0.34, delay: 0.24, ease: "easeOut" }}
           className="mt-5 max-w-lg text-base md:text-lg text-slate-700 leading-relaxed font-medium"
         >
-          In 5 minuten zie je waar je IT sterk staat en waar risico of verspilling zit —
-          over werkplekken, beveiliging, internet/telefonie en IT-beheer.
+          32 vragen over werkplek, beveiliging, connectiviteit en IT-beheer. In ±8 minuten
+          weet je precies waar risico's zitten — en wat je er morgen aan kunt doen.
         </motion.p>
 
         <motion.div

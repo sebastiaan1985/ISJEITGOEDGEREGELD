@@ -1,7 +1,7 @@
 "use client";
 
 import { Check } from "lucide-react";
-import { CATEGORY_SHORT, QUESTIONS_PER_CATEGORY } from "@/lib/questions";
+import { CATEGORY_SHORT, QUESTIONS_PER_CATEGORY, TOTAL_QUESTIONS } from "@/lib/questions";
 
 type Props = {
   currentCategory: 0 | 1 | 2 | 3;
@@ -10,13 +10,32 @@ type Props = {
 };
 
 export function ProgressBar({ currentCategory, currentQuestion, finished }: Props) {
+  const answeredSoFar = finished
+    ? TOTAL_QUESTIONS
+    : currentCategory * QUESTIONS_PER_CATEGORY + currentQuestion;
+  const pct = Math.round((answeredSoFar / TOTAL_QUESTIONS) * 100);
+
   return (
-    <div className="w-full">
-      <div className="flex items-center">
+    <div className="w-full space-y-3">
+      {/* Totaalvoortgang balk */}
+      <div className="flex items-center justify-between text-xs text-slate-500 mb-1">
+        <span className="font-medium">
+          {finished ? "Afgerond" : `Vraag ${answeredSoFar + 1} van ${TOTAL_QUESTIONS}`}
+        </span>
+        <span className="font-semibold text-[#13AEEB]">{pct}%</span>
+      </div>
+      <div className="h-1.5 w-full rounded-full bg-slate-100 overflow-hidden">
+        <div
+          className="h-full rounded-full bg-[#13AEEB] transition-[width] duration-500 ease-out"
+          style={{ width: `${finished ? 100 : pct}%` }}
+        />
+      </div>
+
+      {/* Categorie-stappen */}
+      <div className="flex items-center pt-1">
         {[0, 1, 2, 3].map((i) => {
           const isCompleted = finished || i < currentCategory;
           const isActive = !finished && i === currentCategory;
-          const isFuture = !finished && i > currentCategory;
           const progressWithin = isActive
             ? ((currentQuestion + 1) / QUESTIONS_PER_CATEGORY) * 100
             : isCompleted
@@ -52,7 +71,9 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
           );
         })}
       </div>
-      <div className="mt-3 hidden md:grid grid-cols-4 gap-2 text-xs font-medium text-center">
+
+      {/* Categorielabels desktop */}
+      <div className="hidden md:grid grid-cols-4 gap-2 text-xs font-medium text-center">
         {CATEGORY_SHORT.map((label, i) => (
           <span
             key={label}
@@ -68,7 +89,9 @@ export function ProgressBar({ currentCategory, currentQuestion, finished }: Prop
           </span>
         ))}
       </div>
-      <div className="mt-3 md:hidden text-center text-xs font-medium text-[#13AEEB]">
+
+      {/* Actieve categorie mobiel */}
+      <div className="md:hidden text-center text-xs font-medium text-[#13AEEB]">
         {!finished && CATEGORY_SHORT[currentCategory]}
       </div>
     </div>

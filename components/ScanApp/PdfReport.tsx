@@ -152,18 +152,56 @@ function categoryFeedback(score: number) {
   return "Sterke basis. Blijf dit periodiek toetsen zodat instellingen actueel blijven.";
 }
 
+function buildNarrative(
+  firstName: string,
+  company: string,
+  totalScore: number,
+  perCategory: number[],
+): string {
+  const weakest = perCategory
+    .map((s, i) => ({ name: categoryNames[i], score: s }))
+    .sort((a, b) => a.score - b.score)
+    .slice(0, 2);
+
+  let zone = "";
+  if (totalScore < 50) zone = "meerdere urgente aandachtspunten";
+  else if (totalScore < 75) zone = "een solide basis met concrete verbeterkansen";
+  else zone = "een sterke IT-basis";
+
+  const weakStr = weakest
+    .filter((w) => w.score < 90)
+    .map((w) => `${w.name} (${w.score}/100)`)
+    .join(" en ");
+
+  let intro = `${firstName}, op basis van 32 vragen over de IT-omgeving van ${company} zien we ${zone}. `;
+
+  if (weakStr) {
+    intro += `De meeste aandacht verdienen ${weakStr}. `;
+  }
+
+  if (totalScore < 50) {
+    intro += `Een totaalscore van ${totalScore}/100 geeft aan dat er risico's zijn die — als ze niet worden aangepakt — tot uitval, dataverlies of beveiligingsincidenten kunnen leiden. De goede nieuws: de meeste verbeteringen zijn concreet en uitvoerbaar.`;
+  } else if (totalScore < 75) {
+    intro += `Met een score van ${totalScore}/100 sta je boven het MKB-gemiddelde van 54. De gerichte aandachtspunten in dit rapport helpen je van goed naar sterk.`;
+  } else {
+    intro += `Met een score van ${totalScore}/100 behoort ${company} tot de best beveiligde MKB-organisaties. Blijf dit periodiek toetsen — technologie en dreigingen veranderen ook als jij stilstaat.`;
+  }
+
+  return intro;
+}
+
 export const PdfReport = ({ intake, answers, scores, industryTip }: Props) => {
   const summary = buildScanSummary(answers, scores);
+  const narrative = buildNarrative(intake.firstName, intake.company, scores.total, scores.perCategory);
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Image src="/cloud1-logo-blue.png" style={styles.logo} />
-          <Text style={styles.title}>Cloud ÉÉN IT-Scan Rapport</Text>
+          <Text style={styles.title}>IT-Scan Rapport — {intake.company}</Text>
           <Text style={styles.subtitle}>
-            Gepersonaliseerd rapport voor {intake.company} - t.a.v. {intake.firstName}. Dit rapport
-            is bedoeld als praktische diagnose en niet als formele audit.
+            Persoonlijk rapport voor {intake.firstName} · {new Date().toLocaleDateString("nl-NL")} · Praktische diagnose, geen formele audit.
           </Text>
         </View>
 
@@ -173,11 +211,8 @@ export const PdfReport = ({ intake, answers, scores, industryTip }: Props) => {
             <Text style={styles.scoreLabel}>IT-volwassenheid</Text>
           </View>
           <View style={styles.introBox}>
-            <Text style={styles.cardTitle}>Wat betekent dit?</Text>
-            <Text style={styles.paragraph}>
-              Dit rapport toont waar aandacht nodig is en wat je concreet kunt doen.
-              De eerste stappen bij elke prioriteit kun je zelf oppakken — gratis en direct.
-            </Text>
+            <Text style={styles.cardTitle}>Jouw situatie in één oogopslag</Text>
+            <Text style={styles.paragraph}>{narrative}</Text>
             <View style={styles.benchmarkRow}>
               <Text style={styles.benchmarkText}>MKB-gemiddelde: 54/100 —</Text>
               <Text style={{

@@ -13,7 +13,7 @@ export function Intro({ onStart }: { onStart: () => void }) {
     >
       <p className="eyebrow">Welkom</p>
       <h3 className="mt-3 text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
-        Klaar voor 5 minuten?
+        Klaar voor ±8 minuten?
       </h3>
       <p className="mt-4 mx-auto max-w-lg text-slate-600 leading-relaxed">
         We stellen je 32 korte vragen over vier IT-onderdelen. Geen technische kennis nodig —
