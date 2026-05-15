@@ -13,7 +13,7 @@ export function MascotteVideo() {
 
   return (
     <section className="py-10 md:py-14 bg-white flex justify-center">
-      <div className="relative w-full max-w-xl">
+      <div className="w-full max-w-xl overflow-hidden rounded-2xl">
         <video
           ref={videoRef}
           src="/mascotte.mp4"
@@ -22,11 +22,9 @@ export function MascotteVideo() {
           loop
           playsInline
           disablePictureInPicture
-          className="w-full rounded-2xl"
-          style={{ outline: "none" }}
+          className="w-full block"
+          style={{ outline: "none", transform: "scale(1.1) translateY(-2%)", transformOrigin: "top center" }}
         />
-        {/* Dekt het Veo-watermerk af */}
-        <div className="absolute bottom-0 right-0 w-16 h-8 bg-white rounded-br-2xl" />
       </div>
     </section>
   );
