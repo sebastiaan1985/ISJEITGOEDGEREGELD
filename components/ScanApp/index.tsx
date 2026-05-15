@@ -17,7 +17,7 @@ type State = {
   phase: ScanPhase;
   intake: IntakeData | null;
   currentCategory: 0 | 1 | 2 | 3;
-  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   answers: (number | null)[];
   scores: Scores | null;
 };

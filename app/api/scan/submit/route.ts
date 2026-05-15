@@ -52,7 +52,7 @@ const bodySchema = z.object({
   scanType: z.literal("it-health").default("it-health"),
   intent: z.enum(["lead-capture", "send-report"]).default("send-report"),
   intake: intakeSchema,
-  answers: z.array(z.number().min(0).max(100)).length(28),
+  answers: z.array(z.number().min(0).max(100)).length(32),
   scores: z.object({
     total: z.number().min(0).max(100),
     perCategory: z.tuple([z.number(), z.number(), z.number(), z.number()]),

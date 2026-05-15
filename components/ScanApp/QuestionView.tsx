@@ -7,7 +7,7 @@ import { getQuestion, CATEGORIES, QUESTIONS_PER_CATEGORY } from "@/lib/questions
 
 type Props = {
   category: 0 | 1 | 2 | 3;
-  question: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  question: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   selected: number | null;
   onSelect: (score: number) => void;
   onNext: () => void;

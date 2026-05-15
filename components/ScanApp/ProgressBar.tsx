@@ -5,7 +5,7 @@ import { CATEGORY_SHORT, QUESTIONS_PER_CATEGORY } from "@/lib/questions";
 
 type Props = {
   currentCategory: 0 | 1 | 2 | 3;
-  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  currentQuestion: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   finished: boolean;
 };
 

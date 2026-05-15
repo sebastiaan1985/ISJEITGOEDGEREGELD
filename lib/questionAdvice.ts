@@ -152,6 +152,30 @@ export const QUESTION_ADVICE: Record<string, QuestionAdvice> = {
     cloud1Fit: "Cloud ÉÉN kan helpen met voorspelbare werkplekkosten en licentieoptimalisatie.",
     priority: "laag",
   },
+  "1.8": {
+    consequence: "Verouderde hardware vertraagt medewerkers, verhoogt storingskansen en is moeilijker te beveiligen met moderne beleidsregels.",
+    betterSetup: "Hanteer een vaste vervangingscyclus van 4–5 jaar, houd een apparaatregister bij en plan vervanging proactief.",
+    cloud1Fit: "Cloud ÉÉN Werkplek Standaard kan helpen met hardware-overzicht, levenscyclusbeheer en gestandaardiseerde vervangingsstrategieën.",
+    priority: "middel",
+  },
+  "2.8": {
+    consequence: "Een back-up die nooit is getest, is geen back-up. Bij een ransomware-aanval kan ongetest herstel fataal zijn voor bedrijfscontinuïteit.",
+    betterSetup: "Test back-ups minimaal jaarlijks, leg hersteltijden vast en oefen het volledige herstelscenario met betrokkenen.",
+    cloud1Fit: "Cloud ÉÉN kan back-up inclusief hersteltest beheren en documenteren als onderdeel van een beheerpakket.",
+    priority: "hoog",
+  },
+  "3.8": {
+    consequence: "Zonder netwerkmonitoring worden storingen en beveiligingsincidenten te laat ontdekt, wat leidt tot meer uitval en grotere schade.",
+    betterSetup: "Implementeer continue netwerkmonitoring met automatische alerting bij afwijkingen in prestaties of verdacht verkeer.",
+    cloud1Fit: "Cloud ÉÉN kan KPN EEN-connectiviteit combineren met proactieve monitoring en meldingen voor netwerkstoringen.",
+    priority: "middel",
+  },
+  "4.8": {
+    consequence: "Zonder overzicht van leveranciers en contracten raken afspraken over service, opzegtermijnen en SLA's op de achtergrond.",
+    betterSetup: "Houd een leveranciersregister bij met contactpersonen, verloopdatums, SLA's en een jaarlijkse evaluatie.",
+    cloud1Fit: "Cloud ÉÉN kan als vaste IT-partner helpen met leveranciersoverzicht en contractadvies.",
+    priority: "middel",
+  },
   "1.7": {
     consequence: "Shadow IT brengt onzichtbare risico's mee: data buiten de controle van het bedrijf, lekken en AVG-overtredingen.",
     betterSetup: "Stel een lijst op met goedgekeurde tools, communiceer die actief en blokkeer of signaleer afwijkingen.",

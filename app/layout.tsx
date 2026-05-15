@@ -15,7 +15,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL ?? "https://isjeitgoedgeregeld
 export const metadata: Metadata = {
   title: "Cloud ÉÉN IT-Scan — Hoe staat jouw IT ervoor?",
   description:
-    "Doe de gratis Cloud ÉÉN IT-Scan. In gewone taal inzicht in je werkplek, beveiliging, Microsoft 365 en IT-beheer.",
+    "Doe de gratis Cloud ÉÉN IT-Scan. 32 vragen over werkplek, beveiliging, connectiviteit en beheer. Direct inzicht, geen technische kennis nodig.",
   metadataBase: new URL(BASE_URL),
   openGraph: {
     title: "Cloud ÉÉN IT-Scan — Hoe staat jouw IT ervoor?",

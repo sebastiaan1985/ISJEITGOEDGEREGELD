@@ -16,7 +16,7 @@ export function Intro({ onStart }: { onStart: () => void }) {
         Klaar voor 5 minuten?
       </h3>
       <p className="mt-4 mx-auto max-w-lg text-slate-600 leading-relaxed">
-        We stellen je 24 korte vragen over vier IT-onderdelen. Geen technische kennis nodig —
+        We stellen je 32 korte vragen over vier IT-onderdelen. Geen technische kennis nodig —
         beantwoord op gevoel. Je rapport krijg je direct te zien.
       </p>
       <div className="mt-8 flex justify-center">

@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const CSP = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
   "font-src 'self' https://fonts.gstatic.com data:",
-  "img-src 'self' data: blob:",
-  "connect-src 'self' https://*.supabase.co https://api.resend.com",
+  "img-src 'self' data: blob: https://www.google-analytics.com",
+  "connect-src 'self' https://*.supabase.co https://api.resend.com https://www.google-analytics.com https://analytics.google.com https://region1.google-analytics.com",
   "worker-src blob:",
   "frame-ancestors 'none'",
 ].join("; ");

@@ -7,7 +7,7 @@ export type AnswerOption = {
 export type Question = {
   id: string;
   category: 0 | 1 | 2 | 3;
-  index: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  index: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   text: string;
   scenario?: string;
   options: [AnswerOption, AnswerOption, AnswerOption, AnswerOption];
@@ -181,6 +181,21 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
+  // Vraag 1.8 — Hardware levenscyclus (Onderhoud)
+  {
+    id: "1.8",
+    category: 0,
+    index: 7,
+    text: "Wanneer zijn jullie laptops en andere apparatuur voor het laatste vervangen of beoordeeld?",
+    scenario: "Een medewerker klaagt dat zijn 6 jaar oude laptop traag is. Is dat een uitzondering of de norm?",
+    options: [
+      opt("A", "We vervangen apparatuur pas als die echt stuk gaat", 0),
+      opt("B", "We vervangen af en toe, maar zonder vast schema of overzicht", 33),
+      opt("C", "We hanteren een vervangingscyclus van 4–5 jaar voor laptops", 67),
+      opt("D", "Vaste vervangingscyclus met proactieve monitoring van levensduur en prestatiedaling", 100),
+    ],
+  },
+
   // Vraag 2.7 — Security awareness
   {
     id: "2.7",
@@ -287,6 +302,21 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
+  // Vraag 2.8 — Back-up testen & disaster recovery
+  {
+    id: "2.8",
+    category: 1,
+    index: 7,
+    text: "Hoe zeker weet je dat jullie back-ups écht werken als je ze nodig hebt?",
+    scenario: "Na een ransomware-aanval wil je terugzetten. Wanneer heb je voor het laatste een herstel getest?",
+    options: [
+      opt("A", "We weten het eerlijk gezegd niet — back-ups zijn er, maar testen doen we niet", 0),
+      opt("B", "We testen herstel af en toe als er een directe aanleiding is", 33),
+      opt("C", "We testen back-ups periodiek om te controleren of herstel lukt", 67),
+      opt("D", "Geautomatiseerd, gedocumenteerd en minimaal jaarlijks geoefend herstel met meetbare hersteltijden", 100),
+    ],
+  },
+
   // Vraag 3.7 — Remote access / Zero Trust
   {
     id: "3.7",
@@ -376,6 +406,20 @@ export const QUESTIONS: Question[] = [
     ],
   },
 
+  // Vraag 3.8 — Netwerkmonitoring
+  {
+    id: "3.8",
+    category: 2,
+    index: 7,
+    text: "Hebben jullie inzicht in wat er op het netwerk gebeurt — denk aan storingen, verdacht verkeer of prestatieproblemen?",
+    options: [
+      opt("A", "Geen monitoring — problemen merken we pas als medewerkers klagen", 0),
+      opt("B", "We kijken af en toe in de router of provider-portal bij klachten", 33),
+      opt("C", "We hebben basismonitoring die bij storingen een melding geeft", 67),
+      opt("D", "Continue monitoring van prestaties, beveiliging en anomalieën met automatische alerting", 100),
+    ],
+  },
+
   // Vraag 4.7 — AVG/GDPR compliance
   {
     id: "4.7",
@@ -390,9 +434,23 @@ export const QUESTIONS: Question[] = [
       opt("D", "Volledig AVG-compliant: register, beleid, verwerkersovereenkomsten én jaarlijkse review", 100),
     ],
   },
+
+  // Vraag 4.8 — Leveranciers- en contractbeheer
+  {
+    id: "4.8",
+    category: 3,
+    index: 7,
+    text: "Hoe goed heb je grip op jullie IT-leveranciers, contracten en serviceniveauafspraken (SLA's)?",
+    options: [
+      opt("A", "We weten niet precies welke contracten lopen of wat daarin staat", 0),
+      opt("B", "We hebben een beeld van de grote contracten, maar geen centraal overzicht", 33),
+      opt("C", "We hebben een overzicht van leveranciers en contracten inclusief verloopdatums", 67),
+      opt("D", "Centraal leveranciersoverzicht met SLA-bewaking, jaarlijkse evaluatie en gestructureerd contractbeheer", 100),
+    ],
+  },
 ];
 
-export const QUESTIONS_PER_CATEGORY = 7;
+export const QUESTIONS_PER_CATEGORY = 8;
 export const TOTAL_QUESTIONS = QUESTIONS.length;
 
 export function getQuestion(cat: number, idx: number): Question {

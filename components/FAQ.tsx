@@ -11,7 +11,7 @@ const items = [
   },
   {
     q: "Hoe lang duurt het?",
-    a: "Gemiddeld 5 minuten. Een kort intake-blokje en daarna 24 meerkeuzevragen.",
+    a: "Gemiddeld 8 minuten. Een kort intake-blokje en daarna 32 meerkeuzevragen (8 per onderdeel).",
   },
   {
     q: "Moet ik technisch zijn?",

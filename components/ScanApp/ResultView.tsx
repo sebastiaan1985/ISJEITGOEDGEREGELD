@@ -139,47 +139,74 @@ export function ResultView({ scanType = "it-health", intake, answers, scores }: 
       )}
 
       <div className="mt-10 rounded-2xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
-          <div>
-            <p className="eyebrow">Belangrijkste inzichten</p>
-            <h4 className="mt-2 text-xl font-bold text-slate-900 tracking-tight">
-              Top 5 prioriteiten voor {intake.company || "jouw organisatie"}
-            </h4>
-            <p className="mt-2 text-sm text-slate-600 leading-relaxed">
-              Dit zijn de punten waar verbetering naar verwachting de meeste rust, veiligheid of
-              voorspelbaarheid oplevert.
+        {summary.topPriorities.length === 0 ? (
+          /* Perfect score */
+          <div className="text-center py-4">
+            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 mb-4">
+              <ShieldCheck size={28} className="text-emerald-500" />
+            </div>
+            <h4 className="text-xl font-bold text-slate-900">Indrukwekkend — alles staat op groen!</h4>
+            <p className="mt-2 text-sm text-slate-600 leading-relaxed max-w-lg mx-auto">
+              Op basis van jouw antwoorden scoort {intake.company || "jouw organisatie"} op alle onderdelen maximaal.
+              Dat is uitzonderlijk goed. Toch loont het om dit periodiek te toetsen: technologie en dreigingen
+              veranderen, en zelfs een sterke basis vraagt om onderhoud en optimalisatie.
             </p>
+            <div className="mt-5 rounded-xl border border-emerald-100 bg-emerald-50 p-4 text-left max-w-lg mx-auto">
+              <p className="text-sm font-semibold text-emerald-800 mb-2">Zinvolle gesprekspunten voor een consultant</p>
+              <ul className="text-sm text-emerald-700 space-y-1.5 list-disc list-inside">
+                <li>Kosten- en licentieoptimalisatie — betaalt u niet te veel?</li>
+                <li>Nieuwe mogelijkheden zoals Microsoft Copilot en AI-automatisering</li>
+                <li>Periodieke beveiligingsaudit en penetratietest</li>
+                <li>IT-roadmap voor de komende 2–3 jaar</li>
+                <li>Benchmark: hoe verhouden uw kosten zich tot vergelijkbare organisaties?</li>
+              </ul>
+            </div>
           </div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-[#13AEEB]/10 px-3 py-1.5 text-sm font-semibold text-[#0B85B8]">
-            <ShieldCheck size={16} />
-            Rapport wordt gedownload
-          </div>
-        </div>
-        <div className="mt-5 grid grid-cols-1 gap-3">
-          {summary.topPriorities.map((item, index) => (
-            <div
-              key={item.id}
-              className="rounded-xl border border-slate-200 bg-slate-50 p-4"
-            >
-              <div className="flex items-start gap-3">
-                <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white text-sm font-bold text-[#13AEEB] shadow-sm">
-                  {index + 1}
-                </span>
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <p className="text-sm font-semibold text-slate-900">{item.question}</p>
-                    <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-500">
-                      {item.category}
-                    </span>
-                  </div>
-                  <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
-                    {item.betterSetup}
-                  </p>
-                </div>
+        ) : (
+          <>
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div>
+                <p className="eyebrow">Belangrijkste inzichten</p>
+                <h4 className="mt-2 text-xl font-bold text-slate-900 tracking-tight">
+                  Top 5 prioriteiten voor {intake.company || "jouw organisatie"}
+                </h4>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed">
+                  Dit zijn de punten waar verbetering naar verwachting de meeste rust, veiligheid of
+                  voorspelbaarheid oplevert.
+                </p>
+              </div>
+              <div className="inline-flex items-center gap-2 rounded-full bg-[#13AEEB]/10 px-3 py-1.5 text-sm font-semibold text-[#0B85B8]">
+                <ShieldCheck size={16} />
+                Rapport wordt gedownload
               </div>
             </div>
-          ))}
-        </div>
+            <div className="mt-5 grid grid-cols-1 gap-3">
+              {summary.topPriorities.map((item, index) => (
+                <div
+                  key={item.id}
+                  className="rounded-xl border border-slate-200 bg-slate-50 p-4"
+                >
+                  <div className="flex items-start gap-3">
+                    <span className="mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-lg bg-white text-sm font-bold text-[#13AEEB] shadow-sm">
+                      {index + 1}
+                    </span>
+                    <div className="min-w-0">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <p className="text-sm font-semibold text-slate-900">{item.question}</p>
+                        <span className="rounded-full bg-white px-2 py-0.5 text-xs font-semibold text-slate-500">
+                          {item.category}
+                        </span>
+                      </div>
+                      <p className="mt-1.5 text-sm text-slate-600 leading-relaxed">
+                        {item.betterSetup}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="mt-12">
