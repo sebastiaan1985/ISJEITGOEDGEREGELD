@@ -121,7 +121,7 @@ export function UrgencySection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.4, delay: 0.1 }}
-          className="mt-10 rounded-2xl border border-red-200 bg-red-50 p-6"
+          className="mt-10 p-6"
         >
           <p className="text-sm font-semibold text-red-500 uppercase tracking-wider mb-3">Stel je voor</p>
           <p className="text-slate-700 leading-relaxed">
