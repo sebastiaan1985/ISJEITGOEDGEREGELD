@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useReducer } from "react";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { Intro } from "./Intro";
 import { Intake } from "./Intake";
 import { QuestionView } from "./QuestionView";
@@ -161,12 +161,48 @@ export function ScanApp({ autoStart = false }: { autoStart?: boolean }) {
     state.phase === "submitting" ||
     state.phase === "result";
 
+  const CATEGORY_BG = [
+    "/category-workplace.png",
+    "/category-security.png",
+    "/category-connectivity.png",
+    "/category-support.png",
+  ];
+
+  const showBg = state.phase === "question" || state.phase === "category-complete";
+
   return (
-    <section className="bg-white py-14 md:py-24">
-      <div className="mx-auto max-w-3xl px-5 md:px-8">
+    <section className="relative min-h-screen py-14 md:py-24 overflow-hidden">
+
+      {/* Category background — cross-fade bij elke nieuwe categorie */}
+      <AnimatePresence>
+        {showBg && (
+          <motion.div
+            key={`bg-${state.currentCategory}`}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.65, ease: "easeInOut" }}
+            className="absolute inset-0 z-0"
+            aria-hidden="true"
+          >
+            <img
+              src={CATEGORY_BG[state.currentCategory]}
+              alt=""
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+            {/* Donkere overlay zodat de witte kaart goed leesbaar blijft */}
+            <div className="absolute inset-0 bg-[#0B1F3A]/60" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Witte achtergrond wanneer geen afbeelding actief is */}
+      {!showBg && <div className="absolute inset-0 bg-white z-0" />}
+
+      <div className="relative z-10 mx-auto max-w-3xl px-5 md:px-8">
         <div
           id="scanApp"
-          className="rounded-3xl border border-slate-200 bg-white p-7 md:p-12 shadow-[0_24px_60px_rgba(15,23,42,0.08)] scroll-mt-24"
+          className="rounded-3xl border border-slate-200 bg-white p-7 md:p-12 shadow-[0_24px_60px_rgba(15,23,42,0.12)] scroll-mt-24"
         >
           {showProgress && (
             <div className="mb-10">
@@ -243,3 +279,4 @@ export function ScanApp({ autoStart = false }: { autoStart?: boolean }) {
     </section>
   );
 }
+

@@ -1,12 +1,7 @@
-"use client";
-
+import Link from "next/link";
 import { Button } from "./ui/Button";
 
 export function BottomCTA() {
-  const scrollToScan = () => {
-    document.getElementById("scanApp")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
     <section className="bg-[#0B1F3A] py-20 md:py-24 relative overflow-hidden">
       {/* Glow top-right */}
@@ -29,9 +24,11 @@ export function BottomCTA() {
           ±8 minuten. Geen technische kennis nodig. Direct je rapport.
         </p>
         <div className="mt-8 flex justify-center">
-          <Button onClick={scrollToScan} size="lg" variant="white">
-            Start de gratis scan
-          </Button>
+          <Link href="/scan">
+            <Button size="lg" variant="white">
+              Start de gratis scan
+            </Button>
+          </Link>
         </div>
         <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
           {["Microsoft Solutions Partner", "ISO 27001-geborgd", "6.000+ klanten"].map((label) => (

@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { CheckCircle2, Clock, FileText, ShieldCheck } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import { Button } from "./ui/Button";
 
 const trustItems = [
@@ -13,10 +14,6 @@ const trustItems = [
 ];
 
 export function Hero() {
-  const scrollToScan = () => {
-    document.getElementById("scanApp")?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
   return (
     <section className="relative min-h-[560px] md:min-h-[680px] flex items-center overflow-hidden pt-20 pb-16 bg-white">
       {/* Achtergrond afbeelding */}
@@ -80,9 +77,11 @@ export function Hero() {
           transition={{ duration: 0.26, delay: 0.36, ease: "easeOut" }}
           className="mt-8 flex items-center gap-3 flex-wrap"
         >
-          <Button onClick={scrollToScan} size="lg" className="bg-[#13AEEB] hover:bg-[#0f92c7] text-white">
-            Start de gratis scan
-          </Button>
+          <Link href="/scan">
+            <Button size="lg" className="bg-[#13AEEB] hover:bg-[#0f92c7] text-white">
+              Start de gratis scan
+            </Button>
+          </Link>
           <a
             href="#hoe-werkt-het"
             className="text-sm font-semibold text-slate-600 hover:text-[#13AEEB] px-3 py-2"
