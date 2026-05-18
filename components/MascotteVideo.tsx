@@ -2,6 +2,8 @@
 
 import { useRef, useState } from "react";
 import { Play } from "lucide-react";
+import Link from "next/link";
+import { Button } from "./ui/Button";
 
 export function MascotteVideo() {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -15,7 +17,7 @@ export function MascotteVideo() {
   };
 
   return (
-    <section className="py-10 md:py-14 bg-white flex justify-center relative overflow-hidden">
+    <section className="py-10 md:py-14 bg-white flex flex-col items-center relative overflow-hidden">
       {/* Zachte glow achter de video */}
       <div
         className="absolute inset-0 flex items-center justify-center pointer-events-none"
@@ -46,6 +48,16 @@ export function MascotteVideo() {
             </div>
           </div>
         )}
+      </div>
+
+      {/* CTA naar de gratis IT scan — waar de video naar verwijst */}
+      <div className="relative mt-8 flex flex-col items-center gap-2">
+        <Link href="/scan">
+          <Button size="lg">Start de gratis IT scan</Button>
+        </Link>
+        <span className="text-xs text-slate-500 font-medium">
+          Gratis · ±8 minuten · Direct PDF-rapport
+        </span>
       </div>
     </section>
   );
