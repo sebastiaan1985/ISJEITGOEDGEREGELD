@@ -35,7 +35,7 @@ const items = [
   },
   {
     q: "Krijg ik het rapport ook op papier?",
-    a: "Je ontvangt een PDF in je mail. Print 'em desgewenst — hij is gemaakt om als gespreksdocument te gebruiken.",
+    a: "Na het invullen van je gegevens kun je het rapport direct downloaden als PDF. Print 'em desgewenst — hij is gemaakt om als gespreksdocument te gebruiken.",
   },
 ];
 
