@@ -22,7 +22,7 @@ export function Header() {
       }`}
     >
       <div className="mx-auto max-w-7xl px-5 md:px-8 h-[60px] md:h-[72px] flex items-center justify-between">
-        <a href="#" aria-label="Cloud ÉÉN home" className="flex items-center">
+        <a href="/" aria-label="Cloud ÉÉN home" className="flex items-center">
           <Cloud1Logo
             className={`transition-colors duration-200 ${
               scrolled ? "text-[#13AEEB]" : "text-[#0B1F3A]"

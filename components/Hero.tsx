@@ -71,6 +71,16 @@ export function Hero() {
           weet je precies waar risico's zitten — en wat je er morgen aan kunt doen.
         </motion.p>
 
+        <motion.p
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.31, ease: "easeOut" }}
+          className="mt-4 max-w-lg text-sm text-slate-600 leading-relaxed"
+        >
+          Twijfel je daarna welke IT-oplossing voor computers, laptops en veilig cloudwerken past?
+          Gebruik dan de moderne cloudwerkplek-keuzehulp.
+        </motion.p>
+
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
@@ -82,10 +92,12 @@ export function Hero() {
               Start de gratis scan
             </Button>
           </Link>
-          <a
-            href="#hoe-werkt-het"
-            className="text-sm font-semibold text-slate-600 hover:text-[#13AEEB] px-3 py-2"
-          >
+          <Link href="/moderne-cloud-werkplek">
+            <Button size="lg" variant="secondary">
+              Welke cloudwerkplek past bij mij?
+            </Button>
+          </Link>
+          <a href="#hoe-werkt-het" className="text-sm font-semibold text-slate-600 hover:text-[#13AEEB] px-3 py-2">
             Bekijk hoe het werkt →
           </a>
         </motion.div>
