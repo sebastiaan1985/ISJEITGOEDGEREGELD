@@ -16,7 +16,6 @@ export type WorkplaceQuestion = {
 export type WorkplacePackage = {
   id: WorkplacePackageId;
   name: string;
-  originalName: string;
   price: string;
   tagline: string;
   bestFor: string;
@@ -858,7 +857,6 @@ export const workplacePackages: WorkplacePackage[] = [
   {
     id: "instap",
     name: "Instap",
-    originalName: "Brons",
     price: "€ 23,75",
     tagline: "Een veilige basis voor kleine teams die overzichtelijk werken.",
     bestFor: "Organisaties die vooral een nette, veilige cloudwerkplek nodig hebben zonder uitgebreide beheerlaag.",
@@ -880,7 +878,6 @@ export const workplacePackages: WorkplacePackage[] = [
   {
     id: "standaard",
     name: "Standaard",
-    originalName: "Silver",
     price: "€ 41,80",
     tagline: "De logische keuze voor mkb-teams die hybride werken.",
     bestFor: "Bedrijven die veilig willen werken op kantoor en thuis, met herkenbare uitstraling en praktisch beheer.",
@@ -903,7 +900,6 @@ export const workplacePackages: WorkplacePackage[] = [
   {
     id: "premium",
     name: "Premium",
-    originalName: "Goud",
     price: "€ 66,50",
     tagline: "Voor organisaties die zekerheid, grip en minder IT-gedoe willen.",
     bestFor: "Teams met gevoelige data, veel thuiswerken, mobiele apparaten of behoefte aan proactieve controle.",
@@ -925,7 +921,6 @@ export const workplacePackages: WorkplacePackage[] = [
   {
     id: "ultimate",
     name: "Ultimate",
-    originalName: "Platinum",
     price: "€ 95,00",
     tagline: "Maximale cloudwerkplek voor organisaties die niets aan toeval willen overlaten.",
     bestFor: "Groeiende of complexe organisaties waar beveiliging, schaalbaarheid en regie cruciaal zijn.",

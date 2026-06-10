@@ -108,7 +108,7 @@ export function WorkplaceAdvisor() {
   }
 
   return (
-    <section className="bg-white">
+    <section id="top" className="bg-white">
       <div className="mx-auto max-w-7xl px-5 md:px-8 pt-28 pb-16">
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <motion.div
@@ -429,28 +429,35 @@ function FeatureList({ title, items, positive = false }: { title: string; items:
 
 function PackageComparison() {
   return (
-    <div className="mt-16">
-      <div className="max-w-3xl">
-        <p className="eyebrow">Pakketten</p>
-        <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0B1F3A]">
-          Wat mag je verwachten per moderne cloudwerkplek?
-        </h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-600">
-          De prijzen zijn richtprijzen per gebruiker per maand. Bestaande Cloud EEN-klanten met vast/mobiel,
-          internet of andere diensten kunnen in aanmerking komen voor een aanvullend kortingsvoorstel.
-        </p>
+    <div className="mt-16 rounded-[32px] bg-slate-50 px-4 py-8 md:px-8 md:py-10">
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-end">
+        <div>
+          <p className="eyebrow">Pakketten vergelijken</p>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-[#0B1F3A] md:text-4xl">
+            Kies bewust hoeveel IT-zorg je uit handen geeft
+          </h2>
+        </div>
+        <div className="rounded-3xl border border-[#13AEEB]/20 bg-white p-5">
+          <p className="text-sm font-semibold text-[#0B1F3A]">Heldere richtprijzen</p>
+          <p className="mt-2 text-sm leading-relaxed text-slate-600">
+            Alle bedragen zijn richtprijzen per gebruiker per maand. Neem je al vast/mobiel,
+            internet of een andere Cloud EEN-dienst af? Dan kan Cloud EEN een passend
+            kortingsvoorstel maken.
+          </p>
+        </div>
       </div>
 
       <div className="mt-7 grid gap-4 lg:grid-cols-4">
         {workplacePackages.map((item) => (
           <article
             key={item.id}
-            className={`rounded-3xl border p-5 ${
+            className={`relative overflow-hidden rounded-3xl border p-5 ${
               item.id === "standaard"
-                ? "border-[#13AEEB] bg-[#13AEEB]/5 shadow-[0_12px_34px_rgba(19,174,235,0.14)]"
+                ? "border-[#13AEEB] bg-white shadow-[0_18px_42px_rgba(19,174,235,0.18)]"
                 : "border-slate-200 bg-white"
             }`}
           >
+            {item.id === "standaard" && <div className="absolute inset-x-0 top-0 h-1.5 bg-[#13AEEB]" />}
             <div className="flex items-center justify-between gap-3">
               <h3 className="text-xl font-bold text-[#0B1F3A]">{item.name}</h3>
               {item.id === "standaard" && (
@@ -459,18 +466,24 @@ function PackageComparison() {
                 </span>
               )}
             </div>
-            <p className="mt-1 text-xs font-semibold text-slate-400">Voorheen vergelijkbaar met {item.originalName}</p>
-            <p className="mt-4 text-3xl font-bold text-slate-950">{item.price}</p>
+            <p className="mt-3 min-h-[48px] text-sm leading-relaxed text-slate-600">{item.tagline}</p>
+            <p className="mt-5 text-3xl font-bold text-slate-950">{item.price}</p>
             <p className="text-xs text-slate-500">per gebruiker / maand</p>
-            <p className="mt-4 min-h-[66px] text-sm leading-relaxed text-slate-600">{item.bestFor}</p>
-            <ul className="mt-5 space-y-2">
-              {item.includes.slice(0, 4).map((feature) => (
+            <div className="mt-5 rounded-2xl bg-slate-50 p-4">
+              <p className="text-xs font-bold uppercase text-slate-500">Past goed bij</p>
+              <p className="mt-2 text-sm leading-relaxed text-slate-700">{item.bestFor}</p>
+            </div>
+            <ul className="mt-5 space-y-3">
+              {item.includes.slice(0, 3).map((feature) => (
                 <li key={feature} className="flex gap-2 text-sm leading-relaxed text-slate-700">
-                  <ChevronRight className="mt-0.5 shrink-0 text-[#13AEEB]" size={16} />
+                  <CheckCircle2 className="mt-0.5 shrink-0 text-emerald-500" size={16} />
                   <span>{feature}</span>
                 </li>
               ))}
             </ul>
+            <p className="mt-5 border-t border-slate-200 pt-4 text-xs leading-relaxed text-slate-500">
+              {item.upgradeWhen}
+            </p>
           </article>
         ))}
       </div>
@@ -546,6 +559,21 @@ function PackageComparison() {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mt-6 rounded-3xl bg-[#0B1F3A] p-6 text-white md:flex md:items-center md:justify-between md:gap-6">
+        <div>
+          <h3 className="text-xl font-bold">Twijfel tussen twee pakketten?</h3>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-white/72">
+            De keuzehulp laat straks zien wat op dit moment het beste past en wat je bewust mist
+            als je voor een lichter pakket kiest. Zo wordt het geen technische vergelijking, maar
+            een duidelijke zakelijke keuze.
+          </p>
+        </div>
+        <a href="#top" className="mt-5 inline-flex items-center gap-2 rounded-xl bg-[#13AEEB] px-5 py-3 text-sm font-bold text-white md:mt-0">
+          Start de keuzehulp
+          <ArrowRight size={16} />
+        </a>
       </div>
     </div>
   );
